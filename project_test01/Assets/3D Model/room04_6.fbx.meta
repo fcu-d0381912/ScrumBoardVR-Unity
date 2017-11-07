@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 431ed5da48a931c40ad3533c6dd16682
+timeCreated: 1504164811
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: backwall
+    100002: backwall.001
+    100004: Camera
+    100006: ceiling
+    100008: Circle
+    100010: Circle.001
+    100012: Circle.002
+    100014: Circle.003
+    100016: Circle.004
+    100018: Circle.005
+    100020: Circle.006
+    100022: Cube
+    100024: door
+    100026: doorframe
+    100028: floor
+    100030: frontwall
+    100032: Lamp
+    100034: leftcube
+    100036: leftwall
+    100038: rightcube
+    100040: rightwall
+    100042: //RootNode
+    100044: table
+    100046: trashcan
+    100048: uptable
+    100050: window
+    100052: "\u5E73\u9762"
+    400000: backwall
+    400002: backwall.001
+    400004: Camera
+    400006: ceiling
+    400008: Circle
+    400010: Circle.001
+    400012: Circle.002
+    400014: Circle.003
+    400016: Circle.004
+    400018: Circle.005
+    400020: Circle.006
+    400022: Cube
+    400024: door
+    400026: doorframe
+    400028: floor
+    400030: frontwall
+    400032: Lamp
+    400034: leftcube
+    400036: leftwall
+    400038: rightcube
+    400040: rightwall
+    400042: //RootNode
+    400044: table
+    400046: trashcan
+    400048: uptable
+    400050: window
+    400052: "\u5E73\u9762"
+    2300000: backwall
+    2300002: backwall.001
+    2300004: ceiling
+    2300006: Circle
+    2300008: Circle.001
+    2300010: Circle.002
+    2300012: Circle.003
+    2300014: Circle.004
+    2300016: Circle.005
+    2300018: Circle.006
+    2300020: Cube
+    2300022: door
+    2300024: doorframe
+    2300026: floor
+    2300028: frontwall
+    2300030: leftcube
+    2300032: leftwall
+    2300034: rightcube
+    2300036: rightwall
+    2300038: table
+    2300040: trashcan
+    2300042: uptable
+    2300044: window
+    2300046: "\u5E73\u9762"
+    3300000: backwall
+    3300002: backwall.001
+    3300004: ceiling
+    3300006: Circle
+    3300008: Circle.001
+    3300010: Circle.002
+    3300012: Circle.003
+    3300014: Circle.004
+    3300016: Circle.005
+    3300018: Circle.006
+    3300020: Cube
+    3300022: door
+    3300024: doorframe
+    3300026: floor
+    3300028: frontwall
+    3300030: leftcube
+    3300032: leftwall
+    3300034: rightcube
+    3300036: rightwall
+    3300038: table
+    3300040: trashcan
+    3300042: uptable
+    3300044: window
+    3300046: "\u5E73\u9762"
+    4300000: Circle.006
+    4300002: Circle.005
+    4300004: Circle.004
+    4300006: Circle.003
+    4300008: Circle.002
+    4300010: Circle.001
+    4300012: Circle
+    4300014: Cube
+    4300016: backwall.001
+    4300018: ceiling
+    4300020: floor
+    4300022: trashcan
+    4300024: door
+    4300026: doorframe
+    4300028: uptable
+    4300030: table
+    4300032: window
+    4300034: leftcube
+    4300036: rightcube
+    4300038: leftwall
+    4300040: rightwall
+    4300042: frontwall
+    4300044: backwall
+    4300046: "\u5E73\u9762"
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
