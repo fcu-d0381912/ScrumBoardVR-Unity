@@ -10,8 +10,8 @@ public class TEXT : PunBehaviour {
 	//Color color;
 	//public GameObject cardtext;
     //public string s;
-	string[] CardCnumItems;
-	int cout = 0;
+
+
 	
     float ss;
 
@@ -27,64 +27,56 @@ public class TEXT : PunBehaviour {
     public float Red;
     public float Green;
     public float Blue;
+	public JsonData JsonCardData;
+	public int JsonCardDatalength=0;
+
+    public string LoginSsn;
+	public string LoginPnum;
 
     public JsonData JsonCard;
     public int jsonCardlength = 0;
     //
     // public string srt;
     // Use this for initialization
+    
+
     public void Generate()
     {
        
 		PlayerPrefs.SetString("Ssn","ss");
-		PlayerPrefs.SetString("Pnum","1313");
-        string LoginSsn = PlayerPrefs.GetString("Ssn");
-        string LoginPnum= PlayerPrefs.GetString("Pnum");
-        int Pnum = 0;
+		PlayerPrefs.SetString("Pnum","1");
+        LoginSsn = PlayerPrefs.GetString("Ssn");
+        LoginPnum= PlayerPrefs.GetString("Pnum");
+        
         Pnum = int.Parse(LoginPnum);
-        //Network.Instantiate
-        ss +=0.1f;
+
+        //ss +=0.1f;
 
         
 		GameObject gobj = PhotonNetwork.Instantiate ("card", new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
-		//gobj.GetComponent<Renderer>  = GameObject.Find ("ColorIndicator").GetComponent<Color> ().a;
+
 
 		gobj.GetComponentInChildren<Renderer>().material.color = GameObject.Find ("ColorIndicator").GetComponent<Renderer>().material.color;
-		//caedtext= GameObject.Find("").GetComponent<Text> ();
+
 		gobj.GetComponentInChildren<Text>().text = caedtext.text;
-		//gobj.GetComponentInChildren<Text>().text = cardtext.GetComponent<Speech>().stringtemp;
+
         gobj.name = "ni"+ss;
 	
-        //資料庫測試
-        StartCoroutine(CnumAutoCreate());
-		    //Cnum = getCnum (Cnum);
-		    //print("回傳卡片值:"+Cnum);
-		//Debug.Log (Cnum);
-        //InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4);
-        //顏色測試
-        float ColorAlpha = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.a;
-        float ColorRed = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.r;
-        float ColorGreen = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.g;
-        float ColorBlue = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.b;
-        //Debug.Log("顏色測試Alpha:"+ ColorAlpha);
-        //Debug.Log("顏色測試Red:" + ColorRed);
-        //Debug.Log("顏色測試Green:" + ColorGreen);
-        //Debug.Log("顏色測試Blue:" + ColorBlue);
-        //資料庫載入測試
-        //InsertCardColor(ColorAlpha, ColorRed, ColorGreen, ColorBlue);
-        //座標測試
-        float xLocation = gobj.transform.position.x;
-        float yLocation = gobj.transform.position.y;
+
+         Alpha = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.a;
+         Red = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.r;
+         Green = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.g;
+         Blue = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.b;
+
+        xLocation = gobj.transform.position.x;
+        yLocation = gobj.transform.position.y;
         float zLocation = gobj.transform.position.z;
-        //Debug.Log("座標測試xLocation:" + xLocation);
-        //Debug.Log("座標測試yLocation:" + yLocation);
-        //Debug.Log("座標測試zLocation:" + zLocation);
-        //資料庫載入測試
-        //InsertCardLocation(xLocation, yLocation);
-		InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation,ColorAlpha, ColorRed, ColorGreen, ColorBlue);
+
+        StartCoroutine(CnumAutoCreate());
+		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
     }
 
-	public void InsertCard(int Cnum, string Cstory, int Pnum,string CSsn, int Estimate,float xLocation, float yLocation,float ColorAlpha, float ColorRed, float ColorGreen, float ColorBlue)
+	public IEnumerator InsertCard(int Cnum, string Cstory, int Pnum,string CSsn, int Estimate,float xLocation, float yLocation,float ColorAlpha, float ColorRed, float ColorGreen, float ColorBlue)
     {
         string InsertCardURL = ("http://localhost/scrumboard/card/CardAllInsert.php");
         WWWForm form = new WWWForm();
@@ -103,19 +95,24 @@ public class TEXT : PunBehaviour {
 		form.AddField("GreenPost", ColorGreen.ToString("0.0000"));
 		form.AddField("BluePost", ColorBlue.ToString("0.0000"));
         WWW www = new WWW(InsertCardURL, form);
-		Debug.Log ("insertcard");
+        yield return www;
+
+        string Cardboolean = www.text;
+        Debug.Log("Cardboolean:" + Cardboolean);
+
+        
     }
 
 
     public IEnumerator CnumAutoCreate()
     {
         //int CardCnumber;       
-        WWW CardCnum = new WWW("http://localhost/scrumboard/card/CardData.php");
+		WWW CardDataURL = new WWW("http://localhost/scrumboard/card/CardData.php");
         //CardCnumber = 0;
-        yield return CardCnum;
+		yield return CardDataURL;
 		//Debug.Log ("test"+cout++);
-        string ItemsDataString = CardCnum.text;
-        CardCnumItems = ItemsDataString.Split(';');
+		string ItemsDataString = CardDataURL.text;
+        
 
         if (ItemsDataString.Equals("NULL"))
         {
@@ -135,7 +132,7 @@ public class TEXT : PunBehaviour {
 
 
             Cnum = int.Parse(CardJsonData);
-            Debug.Log("Cnum:" + Cnum);
+            //Debug.Log("Cnum:" + Cnum);
             Cnum = Cnum + 1;
             i++;
         }
@@ -143,29 +140,111 @@ public class TEXT : PunBehaviour {
         {
             Cnum = 1;
         }
+        StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4, xLocation, yLocation, Alpha, Red, Green, Blue));
     }
 
 
-	public void InsertCardLocation(float xLocation, float yLocation)
-	{
-		string InsertCardLocationURL = ("http://localhost/scrumboard/card/CardLocationInsert.php");
-		WWWForm form = new WWWForm();
-		form.AddField("xLocationPost", xLocation.ToString("0.0000"));
-		form.AddField("yLocationPost", yLocation.ToString("0.0000"));
 
-		WWW www = new WWW(InsertCardLocationURL, form);
-	}
-	public void InsertCardColor(float ColorAlpha, float ColorRed, float ColorGreen, float ColorBlue)
+	public void AutoGenerate(string Cstory,float xLocation,float yLocation,float Alpha,float Red,float Green,float Blue)
 	{
-		string InsertCardColorURL = ("http://localhost/scrumboard/card/CardColorInsert.php");
-		WWWForm form = new WWWForm();
-		form.AddField("AlphaPost", ColorAlpha.ToString("0.0000"));
-		form.AddField("RedPost", ColorRed.ToString("0.0000"));
-		form.AddField("GreenPost", ColorGreen.ToString("0.0000"));
-		form.AddField("BluePost", ColorBlue.ToString("0.0000"));
 
-		WWW www = new WWW(InsertCardColorURL, form);
+		PlayerPrefs.SetString("Ssn","ss");
+		PlayerPrefs.SetString("Pnum","1");
+		LoginSsn = PlayerPrefs.GetString("Ssn");
+		LoginPnum= PlayerPrefs.GetString("Pnum");
+
+		Pnum = int.Parse(LoginPnum);
+
+		//ss +=0.1f;
+
+		GameObject gobj = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, (float)2.782), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
+
+
+
+		gobj.GetComponentInChildren<Renderer>().material.color = new Color(Red,Green,Blue,Alpha);
+
+		gobj.GetComponentInChildren<Text>().text = Cstory;
+
+		gobj.name = "ni"+ss;
+
+
+		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
 	}
+
+	public IEnumerator ListPnumCard()
+	{	
+		PlayerPrefs.SetString("Pnum","0");
+
+		string LoginPnum= PlayerPrefs.GetString("Pnum");
+		string CardDataURL = "http://localhost/scrumboard/card/CardData.php";
+		WWWForm form = new WWWForm();
+		form.AddField("PnumPost", LoginPnum);
+		WWW www = new WWW(CardDataURL, form);
+		yield return www;
+
+		string ItemsDataString = www.text;
+		Debug.Log("ItemsDataString:" + ItemsDataString);
+		//Debug.Log(ItemsDataString.Equals("\nNULL"));
+		if (ItemsDataString.Equals("\nNULL"))
+		{
+			Debug.Log("NO have any card");
+		}
+		else
+		{
+			JsonCardData = JsonMapper.ToObject<JsonData>(ItemsDataString);
+			JsonCardDatalength = JsonCardData.Count;
+			Debug.Log("JsonProjectEmployee:" + JsonCardData.Count);
+		}
+
+
+		int i = 0;
+		while (i < (JsonCardDatalength))
+		{
+			string CardCnumJsonData = JsonCardData[i]["Cnum"].ToString();
+			string CardCstoryJsonData = JsonCardData[i]["Cstory"].ToString();
+			string CardxLocationJsonData = JsonCardData[i]["xLocation"].ToString();
+			string CardyLocationJsonData = JsonCardData[i]["yLocation"].ToString();
+			string CardPnumJsonData = JsonCardData[i]["Pnum"].ToString();
+			string CardCSsnJsonData = JsonCardData[i]["CSsn"].ToString();
+			string CardEstimateJsonData = JsonCardData[i]["Estimate"].ToString();
+			string CardAlphaJsonData = JsonCardData[i]["Alpha"].ToString();
+			string CardRedJsonData = JsonCardData[i]["Red"].ToString();
+			string CardGreenJsonData = JsonCardData[i]["Green"].ToString();
+			string CardBlueJsonData = JsonCardData[i]["Blue"].ToString();
+
+
+			Cnum = int.Parse(CardCnumJsonData);
+			Cstory = CardCstoryJsonData;
+			xLocation = float.Parse(CardxLocationJsonData);
+			yLocation =  float.Parse(CardyLocationJsonData);
+			Pnum = int.Parse(CardPnumJsonData);
+			CSsn = CardCSsnJsonData;
+			Estimate = int.Parse(CardEstimateJsonData);
+			Alpha =  float.Parse(CardAlphaJsonData);
+			Red = float.Parse(CardRedJsonData);
+			Green =  float.Parse(CardGreenJsonData);
+			Blue = float.Parse(CardBlueJsonData);
+
+
+			//CanAddEmployee[i] = new ProjectEmployeeData(Pnumber, PSsn, PCharacter);
+
+			Debug.Log("PnumCard Cnum:" + Cnum);
+			Debug.Log("PnumCard Cstory:" + Cstory);
+			Debug.Log("PnumCard xLocation:" + xLocation);
+			Debug.Log("PnumCard yLocation:" + yLocation);
+			Debug.Log("PnumCard Pnum:" + Pnum);
+			Debug.Log("PnumCard CSsn:" + CSsn);
+			Debug.Log("PnumCard Estimate:" + Estimate);
+			Debug.Log("PnumCard Alpha:" + Alpha);
+			Debug.Log("PnumCard Red:" + Red);
+			Debug.Log("PnumCard Green:" + Green);
+			Debug.Log("PnumCard Blue:" + Blue);
+			//AutoGenerate (Cstory, xLocation, yLocation, Alpha, Red, Green, Blue);
+			i++;
+		}
+
+	}
+
 }
 
 class Card
@@ -181,4 +260,19 @@ class Card
     public float Red;
     public float Green;
     public float Blue;
+
+	public Card(int Cnum,string Cstory,float xLocation,float yLocation,int Pnum,string CSsn,int Estimate,float Alpha,float Red,float Green,float Blue){
+		this.Cnum = Cnum;
+		this.Cstory = Cstory;
+		this.xLocation = xLocation;
+		this.yLocation = yLocation;
+		this.Pnum = Pnum;
+		this.CSsn = CSsn;
+		this.Estimate = Estimate;
+		this.Alpha = Alpha;
+		this.Red = Red;
+		this.Green = Green;
+		this.Blue = Blue;
+		
+	}
 }

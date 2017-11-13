@@ -140,7 +140,6 @@ public class RoomConnect : PunBehaviour
         {
             Json = JsonMapper.ToObject<JsonData>(ItemsDataString);
             jsonProjectlength= Json.Count;
-			Debug.Log("jsonProjectlength:" + jsonProjectlength);
         }
 
         //Json.Count
@@ -150,7 +149,7 @@ public class RoomConnect : PunBehaviour
         int i = 0; 
         while (i < (jsonProjectlength))
         {
-			Debug.Log("jsonProjectlength:" + jsonProjectlength  + "i:" +i);
+
             //PnumString = ProjectItems[i].Substring(ProjectItems[i].IndexOf("id\":\"") + "id\":\"".Length);
 
             string ProjectPnumJsonData = Json[i]["Pnum"].ToString();
@@ -169,7 +168,6 @@ public class RoomConnect : PunBehaviour
 
             i++;
             //}
-			Debug.Log("i:" + i);
         }
     }
 
@@ -190,25 +188,34 @@ public class RoomConnect : PunBehaviour
     }
 
     //創建專案
-    public void CreateProject(string Pname, int Pnum, string Super_SSn)
+    public IEnumerator CreateProject(string Pname, int Pnum, string Super_SSn)
     {
         WWWForm form = new WWWForm();
         form.AddField("PnamePost", Pname);
         form.AddField("PnumPost", Pnum);
         form.AddField("SuperSSnPost", Super_SSn);
         WWW www = new WWW(CreateProjectURL, form);
+        yield return www;
+
+        string CreateProjectboolean = www.text;
+        Debug.Log("CreateProjectboolean:" + CreateProjectboolean);
     }
  
     //權限升級
-    public void UpdateProjectAuthority(string Ssn)
+    public IEnumerator UpdateProjectAuthority(string Ssn)
     {
         WWWForm form = new WWWForm();
         form.AddField("SSnnamePost", Ssn);
         WWW www = new WWW(UpdateProjectAuthorityURL, form);
 
+        yield return www;
+
+        string UpdateProjectAuthorityboolean = www.text;
+        Debug.Log("UpdateProjectAuthorityboolean:" + UpdateProjectAuthorityboolean);
+
     }
     //專案角色改變
-    public void InsertProjectCharacter(string PSsn, int Pnumber, string PCharacter)
+    public IEnumerator InsertProjectCharacter(string PSsn, int Pnumber, string PCharacter)
     {
         WWWForm form = new WWWForm();
         form.AddField("PSsnPost", PSsn);
@@ -216,6 +223,10 @@ public class RoomConnect : PunBehaviour
         form.AddField("PCharacterPost", PCharacter);
 
         WWW www = new WWW(InsertProjectCharacterURL, form);
+        yield return www;
+
+        string ProjectCharacterboolean = www.text;
+        Debug.Log("ProjectCharacterboolean:" + ProjectCharacterboolean);
 
     }
 
@@ -342,7 +353,6 @@ public class RoomConnect : PunBehaviour
         }
         else
         {
-            Debug.Log("What?");
             JsonProjectManager = JsonMapper.ToObject<JsonData>(ItemsDataString);
             jsonProjectManagerlength = JsonProjectManager.Count;
             Debug.Log("JsonProjectEmployee:" + JsonProjectManager.Count);
@@ -531,14 +541,14 @@ public class RoomConnect : PunBehaviour
             //StartCoroutine(InsertProjectJson());
 
             //print(project);
-            CreateProject(Pname, Pnum, Super_SSn);
+            StartCoroutine(CreateProject(Pname, Pnum, Super_SSn));
             string projecttostring = Convert.ToString(Pnum);
             projectName = "NO." + projecttostring + "   " + projectName + "         Project Manager:" + Super_SSn;
             InstantProject(projectName);
             //權限升級
-            UpdateProjectAuthority(Super_SSn);
+            StartCoroutine(UpdateProjectAuthority(Super_SSn));
             //專案角色改變
-            InsertProjectCharacter(Super_SSn, Pnum, "ScrumMaster");
+            StartCoroutine(InsertProjectCharacter(Super_SSn, Pnum, "ScrumMaster"));
         }
     
 }

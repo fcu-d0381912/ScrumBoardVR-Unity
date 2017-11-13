@@ -37,6 +37,8 @@ public class controllerTest : MonoBehaviour {
 		creatcard = GameObject.Find ("Card").GetComponent<TEXT> ();
 		showEditorCanvas = false;
 
+		//StartCoroutine(creatcard.ListPnumCard());
+
 		//speech.Find();
 
 	}
@@ -76,6 +78,7 @@ public class controllerTest : MonoBehaviour {
 			if (controller.GetAxis (touchPad).y > 0 && controller.GetAxis (touchPad).x > 0){
 				imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank");
 				creatcard.Generate ();
+
 				Debug.Log (1);
 			}
 			else if (controller.GetAxis (touchPad).x < -0 && controller.GetAxis (touchPad).y > 0){
