@@ -10,18 +10,19 @@ public class right_Controller : MonoBehaviour {
 
 	private Valve.VR.EVRButtonId appButton = Valve.VR.EVRButtonId.k_EButton_ApplicationMenu;
 	private Valve.VR.EVRButtonId touchPad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
-	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+	//private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 	public GameObject camerarig;
 	private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
 	private SteamVR_TrackedObject trackedObj;
-
+	public GameObject EditorCanvas;
 	private Transform vrCamera;
+	/*
 	private GameObject enter;
 	private GameObject board;
 	private GameObject pickup;
-
+	*/
 	public Image imageUIMove;
-
+	private bool showEditorCanvas = false;
 	// Use this for initialization
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -37,7 +38,7 @@ public class right_Controller : MonoBehaviour {
 		} 
 		if(controller.GetPressUp(appButton)){
 			Switch ();
-			TouchPad();//及時UI顯示用
+			AppShowUI ();
 		}
 
 
@@ -111,12 +112,36 @@ public class right_Controller : MonoBehaviour {
 	private void TouchPad(){
 		if (menuCount == 1){
 			Move();
-			imageUIMove.sprite = Resources.Load<Sprite> ("uiMove2");
+
 		}else if (menuCount == 0){
 			//MENU_2 功能
-			imageUIMove.sprite = Resources.Load<Sprite> ("uiNull");
+
 		}
 			
+	}
+	/*
+	private void SetUI(){
+		if(menuCount == 1){
+			imageUIMove.sprite = Resources.Load<Sprite> ("uiMove2");
+		}else if(menuCount == 0){
+			imageUIMove.sprite = Resources.Load<Sprite> ("uiNull");
+		}
+
+		
+	}
+	*/
+	private void AppShowUI(){
+		if(menuCount == 1){
+			Debug.Log ("open left ui");
+			showEditorCanvas = !showEditorCanvas;
+			EditorCanvas.SetActive (showEditorCanvas);
+		}
+		else if (menuCount == 0){
+			Debug.Log ("close left ui");
+			showEditorCanvas = !showEditorCanvas;
+			EditorCanvas.SetActive (showEditorCanvas);
+			//關UI
+		}
 	}
 
 }

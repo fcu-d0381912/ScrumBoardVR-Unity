@@ -157,15 +157,15 @@ public class TEXT : PunBehaviour {
 
 		//ss +=0.1f;
 
-		GameObject gobj = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, (float)2.782), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
+		GameObject gobj2 = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.782f), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
 
 
+		Color color = new Color (Red, Green, Blue, Alpha);
+		gobj2.GetComponentInChildren<MeshRenderer>().material.color = color;
 
-		gobj.GetComponentInChildren<Renderer>().material.color = new Color(Red,Green,Blue,Alpha);
+		gobj2.GetComponentInChildren<Text> ().text = Cstory;
 
-		gobj.GetComponentInChildren<Text>().text = Cstory;
-
-		gobj.name = "ni"+ss;
+		gobj2.name = "ni"+ss;
 
 
 		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
@@ -239,7 +239,7 @@ public class TEXT : PunBehaviour {
 			Debug.Log("PnumCard Red:" + Red);
 			Debug.Log("PnumCard Green:" + Green);
 			Debug.Log("PnumCard Blue:" + Blue);
-			//AutoGenerate (Cstory, xLocation, yLocation, Alpha, Red, Green, Blue);
+			AutoGenerate (Cstory, xLocation, yLocation, Alpha, Red, Green, Blue);
 			i++;
 		}
 

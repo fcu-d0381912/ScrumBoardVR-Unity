@@ -8,11 +8,11 @@ public class Login : MonoBehaviour {
 
 
 	public string inputSSnname;
-	public string inputPassword;
-	private string account;
+	public butto LeftshowUi;
+	public butto RightshowUi;
+	private string account = "";
 	private string password;
 	private string answer="";
-
 	private bool loginSuccess =false;
 	//string LoginURL = ("http://10.22.16.107/scrumboard/Login.php");
 	string LoginURL = ("http://localhost/scrumboard/Login.php");
@@ -49,11 +49,15 @@ public class Login : MonoBehaviour {
 		if(answer.Equals("login success")){
 			PlayerPrefs.SetString ("Ssn", account);
 			SceneManager.LoadScene (1);
-			loginSuccess = true;
+			//loginSuccess = true;
 		}
 		else{
 			Debug.Log ("2-2");
-			loginSuccess = false;
+			if(!account.Equals("")){
+				LeftshowUi.ShowError ();
+				RightshowUi.ShowError ();
+			}
+
 		}
 
 
