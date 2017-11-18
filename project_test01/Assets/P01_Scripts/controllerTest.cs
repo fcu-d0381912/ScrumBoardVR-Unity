@@ -81,7 +81,7 @@ public class controllerTest : MonoBehaviour {
 			if (controller.GetAxis (touchPad).y > 0 && controller.GetAxis (touchPad).x > 0){
 				//imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank");
 				creatcard.Generate ();
-				StartCoroutine(creatcard.ListPnumCard());
+				//StartCoroutine(creatcard.ListPnumCard());
 				Debug.Log (1);
 			}
 			else if (controller.GetAxis (touchPad).x < -0 && controller.GetAxis (touchPad).y > 0){

@@ -148,18 +148,18 @@ public class TEXT : PunBehaviour {
 	public void AutoGenerate(string Cstory,float xLocation,float yLocation,float Alpha,float Red,float Green,float Blue)
 	{
 
-		PlayerPrefs.SetString("Ssn","ss");
-		PlayerPrefs.SetString("Pnum","1");
-		LoginSsn = PlayerPrefs.GetString("Ssn");
-		LoginPnum= PlayerPrefs.GetString("Pnum");
+		//PlayerPrefs.SetString("Ssn","ss");
+		//PlayerPrefs.SetString("Pnum","1");
+		//LoginSsn = PlayerPrefs.GetString("Ssn");
+		//LoginPnum= PlayerPrefs.GetString("Pnum");
 
-		Pnum = int.Parse(LoginPnum);
+		//Pnum = int.Parse(LoginPnum);
 
 		//ss +=0.1f;
-
+		Debug.Log ("autogenerate:1");
 		GameObject gobj2 = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.782f), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
 
-
+		Debug.Log ("autogenerate:2");
 		Color color = new Color (Red, Green, Blue, Alpha);
 		gobj2.GetComponentInChildren<MeshRenderer>().material.color = color;
 
@@ -173,9 +173,10 @@ public class TEXT : PunBehaviour {
 
 	public IEnumerator ListPnumCard()
 	{	
-		PlayerPrefs.SetString("Pnum","0");
+		//PlayerPrefs.SetString("Pnum","0");
 
 		string LoginPnum= PlayerPrefs.GetString("Pnum");
+		Debug.Log("LoginPnum:" + LoginPnum);
 		string CardDataURL = "http://localhost/scrumboard/card/CardData.php";
 		WWWForm form = new WWWForm();
 		form.AddField("PnumPost", LoginPnum);

@@ -7,9 +7,11 @@ public class ScrollProject : MonoBehaviour {
 	public GameObject movePanel;
 	private Vector2 centerLeft;
 	private Vector2 centerRight;
+	List<Button> buttonList;
 	public Button[] buttonArray; 
 	private Vector2 newCenterLeft;
 	private Vector2 newCenterRight;
+	public RoomConnect projectRoom;
 	int i=0;
 	float tempX;
 	float tempY;
@@ -29,15 +31,21 @@ public class ScrollProject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		buttonList = new List<Button> ();
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
 		centerLeft = movePanel.GetComponent<RectTransform> ().position;
 		centerRight = movePanel.GetComponent<RectTransform> ().offsetMin;
 		newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
 		newCenterRight = movePanel.GetComponent<RectTransform> ().offsetMax;
+		buttonArray = new Button[movePanel.transform.childCount];
 		//tempX=buttonArray [4].GetComponent<RectTransform> ().anchoredPosition.x;
 		//tempY=buttonArray [4].GetComponent<RectTransform> ().anchoredPosition.y;
-
-	
+		while(i < movePanel.transform.childCount ){
+			buttonArray[i]=movePanel.GetComponentsInChildren<Button>()[i];
+			i++;
+		}
+		i = 0;
+		
 	}
 
 	// Update is called once per frame
@@ -45,7 +53,7 @@ public class ScrollProject : MonoBehaviour {
 
 
 		for(i=0;i<buttonArray.Length;i++){
-			Debug.Log (centerLeft.x + "," + buttonArray [0].transform.position.x);
+			//Debug.Log (centerLeft.x + "," + buttonArray [0].transform.position.x);
 			if((buttonArray[i].transform.position.x - centerLeft.x)>6){
 				Debug.Log (buttonArray [i].transform.position + " " + " " + centerLeft.x);
 				newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
@@ -59,13 +67,13 @@ public class ScrollProject : MonoBehaviour {
 
 		if (controller.GetPressDown(triggerButton)) {
 
-			movePanel= movePanel.gameObject;
+			//movePanel= movePanel.gameObject;
 			//Vector2 min = movePanel.GetComponent<RectTransform> ().offsetMin;
 			//Vector2 max = movePanel.GetComponent<RectTransform> ().offsetMax;
 
 				
-			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x+(this.transform.position.x*50), 0);
-			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x+(this.transform.position.x*50), 0);
+			//movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x+(this.transform.position.x*50), 0);
+			//movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x+(this.transform.position.x*50), 0);
 
 			/*if(movePanel.GetComponent<RectTransform> ().offsetMin.x>300){
 				movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(centerLeft.x, 0);
@@ -80,8 +88,9 @@ public class ScrollProject : MonoBehaviour {
 
 		}
 		else if(controller.GetHairTriggerUp()){
-			newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
-			newCenterRight = movePanel.GetComponent<RectTransform> ().offsetMax;
+			//newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
+			//newCenterRight = movePanel.GetComponent<RectTransform> ().offsetMax;
+
 
 		}
 
@@ -133,27 +142,20 @@ public class ScrollProject : MonoBehaviour {
 	}
 
 
-	/*void OnTriggerEnter(Collider collider)
+	void OnTriggerEnter(Collider collider)
 	{
-		Debug.Log ("colider");
+		//Debug.Log (collider.name);
 
 		if (controller.GetPressDown(triggerButton)) {
-			
-			movePanel= movePanel.gameObject;
-			//Vector2 min = movePanel.GetComponent<RectTransform> ().offsetMin;
-			//Vector2 max = movePanel.GetComponent<RectTransform> ().offsetMax;
-			//Debug.Log (min.x);
-			//Debug.Log (max.x);
-			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x+(this.transform.position.x*50), 0);
-			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x+(this.transform.position.x*50), 0);
-			Debug.Log (collider.gameObject.GetComponent<RectTransform>().anchoredPosition);
+			int pNum = int.Parse(collider.gameObject.GetComponentInChildren<Text> ().text);
+			projectRoom.GetRoom (pNum);
 
 		}
 
 
 	}
 
-	void OnTriggerExit(Collider collider)
+	/*void OnTriggerExit(Collider collider)
 	{
 		//Debug.Log ("colider");
 

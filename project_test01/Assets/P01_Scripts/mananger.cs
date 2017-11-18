@@ -6,6 +6,7 @@ public class mananger : PunBehaviour {
     public bool havetext;
     public bool first;
     string TEMP;
+	public TEXT cardCreate;
     // Use this for initialization
     void Start () {
         havetext = false;
@@ -22,6 +23,7 @@ public class mananger : PunBehaviour {
             if (PhotonNetwork.inRoom)
             {
                 PhotonNetwork.Instantiate("Sphere", new Vector3(0, 1, 0), Quaternion.identity, 0);
+				StartCoroutine(cardCreate.ListPnumCard ());
             }
             Debug.Log(TEMP);
         }

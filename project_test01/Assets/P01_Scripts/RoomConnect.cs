@@ -162,8 +162,9 @@ public class RoomConnect : PunBehaviour
             projectName = "NO." + Pnum + "   " + Pname + "\nProject Manager:" + Super_SSn;
             Debug.Log("projectName:" + projectName);
             
-            InstantProjectEmployee(projectName, Super_SSn, Pnum);
-            //GoToProject set
+            //InstantProjectEmployee(projectName, Super_SSn, Pnum);
+			InstantProject(Pnum);
+			//GoToProject set
 
 
             i++;
@@ -180,7 +181,7 @@ public class RoomConnect : PunBehaviour
 
         //StartCoroutine(Projectnumber(projectName));
 
-        StartCoroutine(ProjectnumberJson(projectName));
+       // StartCoroutine(ProjectnumberJson(projectName));
 
         creatRoomUi.SetActive(false);
         showCreat.gameObject.SetActive(true);
@@ -231,27 +232,31 @@ public class RoomConnect : PunBehaviour
     }
 
     //新增專案用
-    private void InstantProject(string projectName)
+    private void InstantProject(int pNum)
     {
         childGameObject = Instantiate(copyGameObject);
         childGameObject.transform.SetParent(superGameObject.transform);
+		childGameObject.transform.localScale=new Vector3(1,1,1);
+		childGameObject.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(pNum*100,0,0);
+
         //考慮要不要加PNUM
-        childGameObject.GetComponentInChildren<Text>().text = projectName;
-        Button GoToProject = childGameObject.GetComponentsInChildren<Button>()[0];
-        Button AddEmployee = childGameObject.GetComponentsInChildren<Button>()[1];
+		childGameObject.GetComponentInChildren<Text>().text = pNum.ToString();
+        //Button GoToProject = childGameObject.GetComponentsInChildren<Button>()[0];
+        //Button AddEmployee = childGameObject.GetComponentsInChildren<Button>()[1];
 
-        AddEmployee.interactable = true;
-        GoToProject.interactable = true;
-        GoToProject.onClick.AddListener(delegate {
-            GetRoom(GoToProject);
-        });
-        AddEmployee.onClick.AddListener(delegate {
+       // AddEmployee.interactable = true;
+       // GoToProject.interactable = true;
+       // GoToProject.onClick.AddListener(delegate {
 
-            CheckToggle(AddEmployee);
-        });
+		//GetRoom(pNum);
+       // });
+        //AddEmployee.onClick.AddListener(delegate {
+
+       //     CheckToggle(AddEmployee);
+       // });
     }
     //判斷按鈕是否生成用
-    private void InstantProjectEmployee(string projectName,string Super_SSn,int Pnum)
+    /*private void InstantProjectEmployee(string projectName,string Super_SSn,int Pnum)
     {
         LoginSsn = PlayerPrefs.GetString("Ssn");
         childGameObject = Instantiate(copyGameObject);
@@ -294,7 +299,7 @@ public class RoomConnect : PunBehaviour
 
             CheckToggle(AddEmployee);
         });
-    }
+    }*/
     //列出一個人能去的案子
     public IEnumerator ShowCanGoToProject()
     {
@@ -377,18 +382,18 @@ public class RoomConnect : PunBehaviour
     }
 
 
-    private void GetRoom(Button thisGameObject)
+	public void GetRoom(int pNum)
     {
-        string roomName = "default";
-        string PnumName;
-        GameObject game = thisGameObject.gameObject;
-        roomName = game.transform.parent.GetComponentInChildren<Text>().text;
+        //string roomName = "default";
+        //string PnumName;
+        //GameObject game = thisGameObject.gameObject;
+        //roomName = game.transform.parent.GetComponentInChildren<Text>().text;
         //重要
-        PnumName = roomName.Substring(3, roomName.IndexOf(" "));
-        PlayerPrefs.SetString("Pnum", PnumName);
-        Debug.Log("Go to NO." + PnumName + " project");
+        //PnumName = roomName.Substring(3, roomName.IndexOf(" "));
+		PlayerPrefs.SetString("Pnum", pNum.ToString());
+		Debug.Log("Go to NO." + pNum + " project");
         RoomOptions option = new RoomOptions();
-        PhotonNetwork.JoinOrCreateRoom(roomName, option, TypedLobby.Default);
+		PhotonNetwork.JoinOrCreateRoom(pNum.ToString(), option, TypedLobby.Default);
         SceneManager.LoadScene(2);
     }
 
@@ -484,7 +489,7 @@ public class RoomConnect : PunBehaviour
     }
     //testJson
 
-    private IEnumerator ProjectnumberJson(string projectName)
+    /*private IEnumerator ProjectnumberJson(string projectName)
     {
 
         //WWW ItemsProject = new WWW("http://10.22.28.42/scrumboard/ItemsProject.php");
@@ -549,7 +554,7 @@ public class RoomConnect : PunBehaviour
             StartCoroutine(UpdateProjectAuthority(Super_SSn));
             //專案角色改變
             StartCoroutine(InsertProjectCharacter(Super_SSn, Pnum, "ScrumMaster"));
-        }
+        }*/
     
 }
 
