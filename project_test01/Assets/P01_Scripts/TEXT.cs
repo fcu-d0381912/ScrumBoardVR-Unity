@@ -29,7 +29,7 @@ public class TEXT : PunBehaviour {
     public float Blue;
 	public JsonData JsonCardData;
 	public int JsonCardDatalength=0;
-
+	private GameObject gobj ;
     public string LoginSsn;
 	public string LoginPnum;
 
@@ -44,7 +44,7 @@ public class TEXT : PunBehaviour {
     {
        
 		PlayerPrefs.SetString("Ssn","ss");
-		PlayerPrefs.SetString("Pnum","1");
+		//PlayerPrefs.SetString("Pnum","1");
         LoginSsn = PlayerPrefs.GetString("Ssn");
         LoginPnum= PlayerPrefs.GetString("Pnum");
         
@@ -53,12 +53,12 @@ public class TEXT : PunBehaviour {
         //ss +=0.1f;
 
         
-		GameObject gobj = PhotonNetwork.Instantiate ("card", new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
+		gobj = PhotonNetwork.Instantiate ("card", new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
 
 
 		gobj.GetComponentInChildren<Renderer>().material.color = GameObject.Find ("ColorIndicator").GetComponent<Renderer>().material.color;
 
-		gobj.GetComponentInChildren<Text>().text = caedtext.text;
+		gobj.GetComponentsInChildren<Text>()[0].text = caedtext.text;
 
         gobj.name = "ni"+ss;
 	
@@ -73,6 +73,7 @@ public class TEXT : PunBehaviour {
         float zLocation = gobj.transform.position.z;
 
         StartCoroutine(CnumAutoCreate());
+		//gobj.GetComponentsInChildren<Text>()[1].text =Cnum;
 		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
     }
 
@@ -140,10 +141,25 @@ public class TEXT : PunBehaviour {
         {
             Cnum = 1;
         }
+		gobj.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
         StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4, xLocation, yLocation, Alpha, Red, Green, Blue));
     }
 
+	public IEnumerator UpdateLocation(string Cnum,float xLocation,float yLocation){
+		string UpdateLocationURL = "http://localhost/scrumboard/card/UpdateCardLocation.php";
+		WWWForm form = new WWWForm();
+		form.AddField("CnumPost", Cnum);
 
+		form.AddField("xLocationPost", xLocation.ToString());
+		form.AddField("yLocationPost", yLocation.ToString());
+
+		WWW www = new WWW(UpdateLocationURL, form);
+
+		yield return www;
+
+		string UpdateLocationboolean = www.text;
+		Debug.Log("UpdateLocationboolean:" + UpdateLocationboolean);
+	}
 
 	public void AutoGenerate(string Cstory,float xLocation,float yLocation,float Alpha,float Red,float Green,float Blue)
 	{
@@ -157,14 +173,15 @@ public class TEXT : PunBehaviour {
 
 		//ss +=0.1f;
 		Debug.Log ("autogenerate:1");
-		GameObject gobj2 = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.782f), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
+		GameObject gobj2 = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.7f), Quaternion.Euler (0f, 0f, 0f),0) as GameObject;
 
 		Debug.Log ("autogenerate:2");
 		Color color = new Color (Red, Green, Blue, Alpha);
 		gobj2.GetComponentInChildren<MeshRenderer>().material.color = color;
-
-		gobj2.GetComponentInChildren<Text> ().text = Cstory;
-
+		gobj2.GetComponent<Rigidbody> ().useGravity = false;
+		gobj2.GetComponent<Rigidbody> ().isKinematic = true;
+		gobj2.GetComponentsInChildren<Text> ()[0].text = Cstory;
+		gobj2.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
 		gobj2.name = "ni"+ss;
 
 
@@ -177,7 +194,7 @@ public class TEXT : PunBehaviour {
 
 		string LoginPnum= PlayerPrefs.GetString("Pnum");
 		Debug.Log("LoginPnum:" + LoginPnum);
-		string CardDataURL = "http://localhost/scrumboard/card/CardData.php";
+		string CardDataURL = "http://localhost/scrumboard/card/ListPnumCard.php";
 		WWWForm form = new WWWForm();
 		form.AddField("PnumPost", LoginPnum);
 		WWW www = new WWW(CardDataURL, form);
@@ -186,7 +203,7 @@ public class TEXT : PunBehaviour {
 		string ItemsDataString = www.text;
 		Debug.Log("ItemsDataString:" + ItemsDataString);
 		//Debug.Log(ItemsDataString.Equals("\nNULL"));
-		if (ItemsDataString.Equals("\nNULL"))
+		if (ItemsDataString.Equals("NULL"))
 		{
 			Debug.Log("NO have any card");
 		}

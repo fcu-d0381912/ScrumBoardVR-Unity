@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class pick : MonoBehaviour {
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 	private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
@@ -10,6 +10,7 @@ public class pick : MonoBehaviour {
 	private GameObject enter;
 	private GameObject pickup;
 	private GameObject board;
+	public TEXT Card;
 	// Use this for initialization
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -38,6 +39,11 @@ public class pick : MonoBehaviour {
 				Debug.Log ("2");
 			}else{
 				//資料庫卡片資料載入
+
+				string cNum = pickup.GetComponentsInChildren<Text>()[1].text;
+				float xLocation=pickup.transform.position.x;
+				float yLocation=pickup.transform.position.y;
+				StartCoroutine(Card.UpdateLocation (cNum, xLocation, yLocation));
 			}
 
 			pickup.transform.parent = null;
