@@ -61,13 +61,13 @@ public class controllerTest : MonoBehaviour {
 
 		if (controller.GetPressDown(gripButton) && menuCount == 1) {
 			Debug.Log ("speechStart");
-			//imageUISpeech.sprite = Resources.Load<Sprite> ("uiStart");
+			imageUISpeech.sprite = Resources.Load<Sprite> ("uiStart");
 			speechenity.speechStart();
 			Debug.Log ("speechStart2");
 		}
 		else if (controller.GetPressUp(gripButton) && menuCount == 1) {
 			Debug.Log ("speechStop");
-			//imageUISpeech.sprite = Resources.Load<Sprite> ("uiPause");
+			imageUISpeech.sprite = Resources.Load<Sprite> ("uiPause");
 			speechenity.speechStop ();
 
 			Debug.Log ("speechStop2");
@@ -79,30 +79,30 @@ public class controllerTest : MonoBehaviour {
 
 
 			if (controller.GetAxis (touchPad).y > 0 && controller.GetAxis (touchPad).x > 0){
-				//imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank");
+				imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank");
 				creatcard.Generate ();
 				//StartCoroutine(creatcard.ListPnumCard());
 				Debug.Log (1);
 			}
 			else if (controller.GetAxis (touchPad).x < -0 && controller.GetAxis (touchPad).y > 0){
-				//imageUIDelete.sprite = Resources.Load<Sprite> ("uiDelete");
+				imageUIDelete.sprite = Resources.Load<Sprite> ("uiDelete");
 				speechenity.deleteText();
 				Debug.Log (2);
 			}
 			else if (controller.GetAxis (touchPad).y < 0 && controller.GetAxis (touchPad).x < 0){
-				//imageUIToLeft.sprite = Resources.Load<Sprite> ("uiToLeft");
+				imageUIToLeft.sprite = Resources.Load<Sprite> ("uiToLeft");
 				speechenity.caretleft();
 				//changeCard.changeInputfieldToCard ();//要改位置
 				Debug.Log (3);
 			}
 			else if (controller.GetAxis (touchPad).x > 0 && controller.GetAxis (touchPad).y < 0){
-				//imageUIToRight.sprite = Resources.Load<Sprite> ("uiToRight");
+				imageUIToRight.sprite = Resources.Load<Sprite> ("uiToRight");
 				speechenity.caretRight();
 				//speechenity.changeField (1);//要改位置
 				Debug.Log (4);
 			}
 		}
-		/*
+
 		else if (controller.GetPressUp(touchPad) && menuCount == 1){
 			
 			imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank2");
@@ -111,7 +111,7 @@ public class controllerTest : MonoBehaviour {
 			imageUIToRight.sprite = Resources.Load<Sprite> ("uiToRight2");
 
 		}
-		*/
+
 		
 		/*
 		else if (controller.GetPressDown(triggerButton) && enter != null) {
