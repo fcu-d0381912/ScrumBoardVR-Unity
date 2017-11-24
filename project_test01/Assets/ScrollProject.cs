@@ -147,7 +147,7 @@ public class ScrollProject : MonoBehaviour {
 		//Debug.Log (collider.name);
 
 		if (controller.GetPressDown(triggerButton)) {
-			int pNum = int.Parse(collider.gameObject.GetComponentInChildren<Text> ().text);
+			int pNum = int.Parse(collider.gameObject.name);
 			projectRoom.GetRoom (pNum);
 
 		}

@@ -76,6 +76,7 @@ public class RoomConnect : PunBehaviour
     private JsonData JsonProjectManager;
     private ProjectEmployeeData[] CanAddEmployee = new ProjectEmployeeData[20];
 
+	public GameObject movePanel;
     void Start()
     {
         projectName = "test";
@@ -163,7 +164,7 @@ public class RoomConnect : PunBehaviour
             Debug.Log("projectName:" + projectName);
             
             //InstantProjectEmployee(projectName, Super_SSn, Pnum);
-			InstantProject(Pnum);
+			InstantProject(Pname,Pnum);
 			//GoToProject set
 
 
@@ -232,15 +233,16 @@ public class RoomConnect : PunBehaviour
     }
 
     //新增專案用
-    private void InstantProject(int pNum)
+	private void InstantProject(String Pname,int pNum)
     {
-        childGameObject = Instantiate(copyGameObject);
-        childGameObject.transform.SetParent(superGameObject.transform);
+		childGameObject = Instantiate(copyGameObject);
+		childGameObject.transform.SetParent(movePanel.transform);
 		childGameObject.transform.localScale=new Vector3(1,1,1);
 		childGameObject.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(pNum*100,0,0);
 
         //考慮要不要加PNUM
-		childGameObject.GetComponentInChildren<Text>().text = pNum.ToString();
+		childGameObject.GetComponentInChildren<Text>().text = Pname;
+		childGameObject.name = pNum.ToString ();
         //Button GoToProject = childGameObject.GetComponentsInChildren<Button>()[0];
         //Button AddEmployee = childGameObject.GetComponentsInChildren<Button>()[1];
 
