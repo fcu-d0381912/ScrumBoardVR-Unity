@@ -6,7 +6,11 @@ using System;
 using LitJson;
 public class TEXT : PunBehaviour {
     public GameObject T;
-	public Text caedtext;
+	public Text cardtitle;
+	public Text cardText;
+	public Text cardaSsn;
+	public Text cardeTime;
+	public Text cardEstimate;
 	//Color color;
 	//public GameObject cardtext;
     //public string s;
@@ -35,9 +39,13 @@ public class TEXT : PunBehaviour {
     public float Red;
     public float Green;
     public float Blue;
-	public JsonData JsonCardData;
-	public int JsonCardDatalength=0;
-	private GameObject gobj ;
+	public JsonData JsonCardData;  
+    public int JsonCardDatalength=0;
+
+    public JsonData JsonCnumCardData;
+    public int JsonCnumCardDatalength = 0;
+
+	private GameObject cloneCard ;
     public string LoginSsn;
 	public string LoginPnum;
 
@@ -46,7 +54,7 @@ public class TEXT : PunBehaviour {
     //
     // public string srt;
     // Use this for initialization
-    
+	private Card cardComponent ;
 
     public void Generate()
     {
@@ -61,24 +69,29 @@ public class TEXT : PunBehaviour {
         //ss +=0.1f;
 
         
-		gobj = PhotonNetwork.Instantiate ("card", new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
+		cloneCard = PhotonNetwork.Instantiate ("card", new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler (0f, 90f, 0f),0) as GameObject;
 
+		cloneCard.GetComponentInChildren<Renderer>().material.color = GameObject.Find ("ColorIndicator").GetComponent<Renderer>().material.color;
 
-		gobj.GetComponentInChildren<Renderer>().material.color = GameObject.Find ("ColorIndicator").GetComponent<Renderer>().material.color;
+		cloneCard.GetComponentsInChildren<Text>()[0].text = cardtitle.text;
 
-		gobj.GetComponentsInChildren<Text>()[0].text = caedtext.text;
+		Ctext= cardText.text;
+		ASsn = cardaSsn.text;
+		Etime =int.Parse(cardeTime.text);
+		Estimate=int.Parse(cardEstimate.text);
 
-        
-	
+		cloneCard.GetComponentsInChildren<Text>()[2].text = ASsn;
+		cloneCard.GetComponentsInChildren<Text>()[3].text = Etime.ToString()+" h";
+
 
          Alpha = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.a;
          Red = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.r;
          Green = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.g;
          Blue = GameObject.Find("ColorIndicator").GetComponent<Renderer>().material.color.b;
 
-        xLocation = gobj.transform.position.x;
-        yLocation = gobj.transform.position.y;
-        float zLocation = gobj.transform.position.z;
+		xLocation = cloneCard.transform.position.x;
+		yLocation = cloneCard.transform.position.y;
+		float zLocation = cloneCard.transform.position.z;
 
         StartCoroutine(CnumAutoCreate());
 		//gobj.GetComponentsInChildren<Text>()[1].text =Cnum;
@@ -158,10 +171,11 @@ public class TEXT : PunBehaviour {
         {
             Cnum = 1;
         }
-		gobj.name = "card"+Cnum;
-		gobj.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
-		StartCoroutine(InsertCard (Cnum, caedtext.text,"", Pnum, LoginSsn, "", 4, 10, xLocation, yLocation, Alpha, Red, Green, Blue));
-
+		cloneCard.name = "card"+Cnum;
+		cloneCard.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
+		cardComponent = cloneCard.GetComponent<Card> ();
+		cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, LoginSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
+		StartCoroutine(InsertCard (Cnum, cardtitle.text, Ctext, Pnum, LoginSsn, ASsn, Estimate, Etime, xLocation, yLocation, Alpha, Red, Green, Blue));
 		//InsertCard (Cnum, caedtext.text, Ctext, Pnum, LoginSsn, ASsn, Estimate, Etime, xLocation, yLocation, Alpha, Red, Green, Blue);
 
     }
@@ -182,9 +196,8 @@ public class TEXT : PunBehaviour {
 		Debug.Log("UpdateLocationboolean:" + UpdateLocationboolean);
 	}
 
-	public void AutoGenerate(string Ctitle,float xLocation,float yLocation,float Alpha,float Red,float Green,float Blue)
+	public void AutoGenerate(int Cnum,string Ctitle,string Ctext,float xLocation,float yLocation,int Pnum,string CSsn,string ASsn,int Estimate,int Etime,float Alpha,float Red,float Green,float Blue)
 	{
-
 		//PlayerPrefs.SetString("Ssn","ss");
 		//PlayerPrefs.SetString("Pnum","1");
 		//LoginSsn = PlayerPrefs.GetString("Ssn");
@@ -194,16 +207,24 @@ public class TEXT : PunBehaviour {
 
 		//ss +=0.1f;
 		Debug.Log ("autogenerate:1");
-		GameObject gobj2 = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.7f), Quaternion.Euler (0f, 0f, 0f),0) as GameObject;
-
+		GameObject cloneCard = PhotonNetwork.Instantiate ("card", new Vector3 (xLocation, yLocation, 2.7f), Quaternion.Euler (0f, 0f, 0f),0) as GameObject;
+		cardComponent = cloneCard.GetComponent<Card> ();
+		//cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation,Pnum,CSsn, ASsn, 0, Etime, Alpha, Red, Green, Blue);
+		cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, CSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
+		 
 		Debug.Log ("autogenerate:2");
 		Color color = new Color (Red, Green, Blue, Alpha);
-		gobj2.GetComponentInChildren<MeshRenderer>().material.color = color;
-		gobj2.GetComponent<Rigidbody> ().useGravity = false;
-		gobj2.GetComponent<Rigidbody> ().isKinematic = true;
-		gobj2.GetComponentsInChildren<Text> ()[0].text = Ctitle;
-		gobj2.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
-		gobj2.name = "card"+Cnum;
+		cloneCard.GetComponentInChildren<MeshRenderer>().material.color = color;
+		cloneCard.GetComponent<Rigidbody> ().useGravity = false;
+		cloneCard.GetComponent<Rigidbody> ().isKinematic = true;
+		cloneCard.GetComponentsInChildren<Text>()[0].text = Ctitle;
+		cloneCard.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
+		//cloneCard.GetComponentsInChildren<Text>()[2].text = Ctext;
+
+		cloneCard.GetComponentsInChildren<Text>()[2].text = ASsn;
+		cloneCard.GetComponentsInChildren<Text>()[3].text = Etime.ToString()+" h";
+
+		cloneCard.name = "card"+Cnum;
 
 
 		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
@@ -232,7 +253,7 @@ public class TEXT : PunBehaviour {
 		{
 			JsonCardData = JsonMapper.ToObject<JsonData>(ItemsDataString);
 			JsonCardDatalength = JsonCardData.Count;
-			Debug.Log("JsonProjectEmployee:" + JsonCardData.Count);
+			Debug.Log("JsonCardDatalength:" + JsonCardData.Count);
 		}
 
 
@@ -280,56 +301,120 @@ public class TEXT : PunBehaviour {
 
 			//CanAddEmployee[i] = new ProjectEmployeeData(Pnumber, PSsn, PCharacter);
 
-			Debug.Log("PnumCard Cnum:" + Cnum);
-			Debug.Log("PnumCard Ctitle:" + Ctitle);
-			Debug.Log("PnumCard Ctext:" + Ctext);
+			//Debug.Log("PnumCard Cnum:" + Cnum);
+			//Debug.Log("PnumCard Ctitle:" + Ctitle);
+			//Debug.Log("PnumCard Ctext:" + Ctext);
 
-			Debug.Log("PnumCard xLocation:" + xLocation);
-			Debug.Log("PnumCard yLocation:" + yLocation);
-			Debug.Log("PnumCard Pnum:" + Pnum);
-			Debug.Log("PnumCard CSsn:" + CSsn);
+			//Debug.Log("PnumCard xLocation:" + xLocation);
+			//Debug.Log("PnumCard yLocation:" + yLocation);
+			//Debug.Log("PnumCard Pnum:" + Pnum);
+			//Debug.Log("PnumCard CSsn:" + CSsn);
 
-			Debug.Log("PnumCard ASsn:" + ASsn);
-			Debug.Log("PnumCard Estimate:" + Estimate);
-			Debug.Log("PnumCard Etime:" + Etime);
-			Debug.Log("PnumCard Alpha:" + Alpha);
-			Debug.Log("PnumCard Red:" + Red);
-			Debug.Log("PnumCard Green:" + Green);
-			Debug.Log("PnumCard Blue:" + Blue);
-			AutoGenerate (Ctitle, xLocation, yLocation, Alpha, Red, Green, Blue);
+			//Debug.Log("PnumCard ASsn:" + ASsn);
+			//Debug.Log("PnumCard Estimate:" + Estimate);
+			//Debug.Log("PnumCard Etime:" + Etime);
+			//Debug.Log("PnumCard Alpha:" + Alpha);
+			//Debug.Log("PnumCard Red:" + Red);
+			//Debug.Log("PnumCard Green:" + Green);
+			//Debug.Log("PnumCard Blue:" + Blue);
+
+			AutoGenerate (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, CSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
+
 			i++;
 		}
 
 	}
 
+
+    public IEnumerator ListCnumCard()
+    {
+        //PlayerPrefs.SetString("Pnum","0");
+
+        string findCnumCard ="";
+        
+        string CnumCardURL = "http://localhost/scrumboard/card/CnumCardData.php";
+        WWWForm form = new WWWForm();
+        form.AddField("CnumPost", findCnumCard);
+        WWW www = new WWW(CnumCardURL, form);
+        yield return www;
+
+        string ItemsDataString = www.text;
+        Debug.Log("ItemsDataString:" + ItemsDataString);
+        //Debug.Log(ItemsDataString.Equals("\nNULL"));
+        if (ItemsDataString.Equals("NULL"))
+        {
+            Debug.Log("NO have any card");
+        }
+        else
+        {
+            JsonCnumCardData = JsonMapper.ToObject<JsonData>(ItemsDataString);
+            JsonCnumCardDatalength = JsonCnumCardData.Count;
+            Debug.Log("JsonCnumCardDatalength:" + JsonCnumCardData.Count);
+        }
+
+
+        int i = 0;
+            string CardCnumJsonData = JsonCnumCardData[i]["Cnum"].ToString();
+
+            string CardCtitleJsonData = JsonCnumCardData[i]["Ctitle"].ToString();
+            string CardCtextJsonData = JsonCnumCardData[i]["Ctext"].ToString();
+
+            string CardxLocationJsonData = JsonCnumCardData[i]["xLocation"].ToString();
+            string CardyLocationJsonData = JsonCnumCardData[i]["yLocation"].ToString();
+            string CardPnumJsonData = JsonCnumCardData[i]["Pnum"].ToString();
+
+            string CardCSsnJsonData = JsonCnumCardData[i]["CSsn"].ToString();
+            string CardASsnJsonData = JsonCnumCardData[i]["ASsn"].ToString();
+
+            string CardEstimateJsonData = JsonCnumCardData[i]["Estimate"].ToString();
+            string CardEtimeJsonData = JsonCnumCardData[i]["Etime"].ToString();
+
+
+            string CardAlphaJsonData = JsonCnumCardData[i]["Alpha"].ToString();
+            string CardRedJsonData = JsonCnumCardData[i]["Red"].ToString();
+            string CardGreenJsonData = JsonCnumCardData[i]["Green"].ToString();
+            string CardBlueJsonData = JsonCnumCardData[i]["Blue"].ToString();
+
+
+            Cnum = int.Parse(CardCnumJsonData);
+            Ctitle = CardCtitleJsonData;
+            Ctext = CardCtextJsonData;
+            xLocation = float.Parse(CardxLocationJsonData);
+            yLocation = float.Parse(CardyLocationJsonData);
+            Pnum = int.Parse(CardPnumJsonData);
+            CSsn = CardCSsnJsonData;
+            ASsn = CardASsnJsonData;
+
+            Estimate = int.Parse(CardEstimateJsonData);
+            Etime = int.Parse(CardEtimeJsonData);
+            Alpha = float.Parse(CardAlphaJsonData);
+            Red = float.Parse(CardRedJsonData);
+            Green = float.Parse(CardGreenJsonData);
+            Blue = float.Parse(CardBlueJsonData);
+
+
+            //CanAddEmployee[i] = new ProjectEmployeeData(Pnumber, PSsn, PCharacter);
+
+            Debug.Log("CnumCard Cnum:" + Cnum);
+            Debug.Log("CnumCard Ctitle:" + Ctitle);
+            Debug.Log("CnumCard Ctext:" + Ctext);
+
+            Debug.Log("CnumCard xLocation:" + xLocation);
+            Debug.Log("CnumCard yLocation:" + yLocation);
+            Debug.Log("CnumCard Pnum:" + Pnum);
+            Debug.Log("CnumCard CSsn:" + CSsn);
+
+            Debug.Log("CnumCard ASsn:" + ASsn);
+            Debug.Log("CnumCard Estimate:" + Estimate);
+            Debug.Log("CnumCard Etime:" + Etime);
+            Debug.Log("CnumCard Alpha:" + Alpha);
+            Debug.Log("CnumCard Red:" + Red);
+            Debug.Log("CnumCard Green:" + Green);
+            Debug.Log("CnumCard Blue:" + Blue);
+
+
+    }
+
+
 }
 
-class Card
-{
-    public int Cnum;
-    public string Cstory;
-    public float xLocation;
-    public float yLocation;
-    public int Pnum;
-    public string CSsn;
-    public int Estimate;
-    public float Alpha;
-    public float Red;
-    public float Green;
-    public float Blue;
-
-	public Card(int Cnum,string Cstory,float xLocation,float yLocation,int Pnum,string CSsn,int Estimate,float Alpha,float Red,float Green,float Blue){
-		this.Cnum = Cnum;
-		this.Cstory = Cstory;
-		this.xLocation = xLocation;
-		this.yLocation = yLocation;
-		this.Pnum = Pnum;
-		this.CSsn = CSsn;
-		this.Estimate = Estimate;
-		this.Alpha = Alpha;
-		this.Red = Red;
-		this.Green = Green;
-		this.Blue = Blue;
-		
-	}
-}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class Uicontrol : MonoBehaviour {
 	//bool dragging;
 	public SteamVR_TrackedObject rightController;
@@ -10,6 +11,7 @@ public class Uicontrol : MonoBehaviour {
 	private int InputFieldNumber = 5;
 	private List<InputField> inputArray;
 	public Text showText;
+	public Text showTextContent;
 	public Collider board;
 	// Use this for initialization
 	void Start () {
@@ -50,13 +52,14 @@ public class Uicontrol : MonoBehaviour {
 				}
 				else if(hit.transform.tag.Equals ("NOTE")){
 					showText.text=hit.transform.GetComponentInChildren<Text> ().text;
-					board.gameObject.SetActive(true);
+					showTextContent.text = hit.transform.GetComponent<Card>().Ctext;
 					Debug.Log ("GetNote");
 				}
 
 				//dragging = true;
-
 			}
+			board.gameObject.SetActive(true);
 		}
 	}
 }
+#endif

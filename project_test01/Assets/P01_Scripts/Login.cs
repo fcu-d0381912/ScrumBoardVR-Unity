@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading;
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class Login : MonoBehaviour {
 
 
@@ -78,3 +79,4 @@ public class Login : MonoBehaviour {
 		return loginSuccess;
 	}
 }
+#endif

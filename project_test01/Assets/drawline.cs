@@ -16,7 +16,8 @@ public class drawline : MonoBehaviour {
 		positionList = new List<Vector3>();
 
 		lineRenderer = gameObject.AddComponent<LineRenderer>();
-		lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+
+		lineRenderer.material = new Material(Resources.Load("line", typeof(Material)) as Material);
 		lineRenderer.widthMultiplier = 0.02f;
 		//lineRenderer.positionCount = 9;
 		float alpha = 1.0f;

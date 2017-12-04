@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class right_Controller : MonoBehaviour {
 	private float _mMoveSpeed = 2.5f;
 	private const float VERTICAL_LIMIT = 60f;
@@ -10,11 +10,13 @@ public class right_Controller : MonoBehaviour {
 
 	private Valve.VR.EVRButtonId appButton = Valve.VR.EVRButtonId.k_EButton_ApplicationMenu;
 	private Valve.VR.EVRButtonId touchPad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
+	private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
 	//private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 	public GameObject camerarig;
 	private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
 	private SteamVR_TrackedObject trackedObj;
 	public GameObject EditorCanvas;
+	public GameObject ControllerUIExplainCanvas;
 	private Transform vrCamera;
 	/*
 	private GameObject enter;
@@ -23,6 +25,7 @@ public class right_Controller : MonoBehaviour {
 	*/
 	public Image imageUIMove;
 	private bool showEditorCanvas = false;
+	private bool showControllerUIExplainCanvas = false;
 	// Use this for initialization
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -39,6 +42,9 @@ public class right_Controller : MonoBehaviour {
 		if(controller.GetPressUp(appButton)){
 			Switch ();
 			AppShowUI ();
+		}
+		if(controller.GetPressDown(gripButton)){
+			GripShowUI ();
 		}
 
 
@@ -143,5 +149,11 @@ public class right_Controller : MonoBehaviour {
 			//關UI
 		}
 	}
+	private void GripShowUI(){
+		Debug.Log ("explain ui");
+		showControllerUIExplainCanvas = !showControllerUIExplainCanvas;
+		ControllerUIExplainCanvas.SetActive (showControllerUIExplainCanvas);
+	}
 
 }
+#endif

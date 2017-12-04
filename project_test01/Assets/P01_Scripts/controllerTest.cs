@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class controllerTest : MonoBehaviour {
 	private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
 	//private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -184,3 +184,4 @@ public class controllerTest : MonoBehaviour {
 	}
 
 }
+#endif

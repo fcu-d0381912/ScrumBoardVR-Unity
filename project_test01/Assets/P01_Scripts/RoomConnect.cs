@@ -56,6 +56,9 @@ public class RoomConnect : PunBehaviour
     private string Super_SSn;
     private JsonData Json;
     private int jsonProjectlength = 0;
+
+	private JsonData LoadCanGoToJson;
+	private int jsonLoadCanGoToProjectlength= 0;
     //
     private int Authority;
     private string Fname;
@@ -77,6 +80,9 @@ public class RoomConnect : PunBehaviour
     private ProjectEmployeeData[] CanAddEmployee = new ProjectEmployeeData[20];
 
 	public GameObject movePanel;
+
+	public ScrollProject leftScroll;
+	public ScrollProject rightScroll;
     void Start()
     {
         projectName = "test";
@@ -86,7 +92,7 @@ public class RoomConnect : PunBehaviour
         StartCoroutine(ShowManagerProject());
         
         StartCoroutine(InstantPerson());
-        StartCoroutine(LoadDatabase());
+		StartCoroutine(LoadCanGoToDatabase());
        
 
     }
@@ -104,6 +110,7 @@ public class RoomConnect : PunBehaviour
             }
             else if (PhotonNetwork.inRoom)
             {
+				
                 Debug.Log(PhotonNetwork.room.Name);
             }
             Debug.Log(TEMP);
@@ -126,7 +133,7 @@ public class RoomConnect : PunBehaviour
 
     
     //專案名讀取
-    private IEnumerator LoadDatabase()
+    public IEnumerator LoadDatabase()
     {
         WWW ItemsProjectJson = new WWW("http://localhost/scrumboard/ItemsProject.php");
 
@@ -146,7 +153,7 @@ public class RoomConnect : PunBehaviour
         //Json.Count
         //string ProjectJsonData = Json[1]["Pnum"].ToString();
 
-        int j = 0;
+      
         int i = 0; 
         while (i < (jsonProjectlength))
         {
@@ -171,8 +178,57 @@ public class RoomConnect : PunBehaviour
             i++;
             //}
         }
+		leftScroll.SetButton ();
+		rightScroll.SetButton ();
     }
+		
+	//讀取能進入的專案
+	public IEnumerator LoadCanGoToDatabase()
+	{
 
+		string LoadCanGoToDatabaseURL = "http://localhost/scrumboard/LoadCanGoToDatabase.php";
+		LoginSsn = PlayerPrefs.GetString("Ssn");
+		WWWForm form = new WWWForm();
+		form.AddField("SSnnamePost", LoginSsn);
+		WWW www = new WWW(LoadCanGoToDatabaseURL, form);
+		yield return www;
+		string ItemsDataString = www.text;
+		Debug.Log("ItemsDataString:" + ItemsDataString);
+		if (ItemsDataString.Equals("NULL"))
+		{
+			Debug.Log("No project");
+		}
+		else
+		{
+			LoadCanGoToJson = JsonMapper.ToObject<JsonData>(ItemsDataString);
+			jsonLoadCanGoToProjectlength= LoadCanGoToJson.Count;
+		}
+
+		int i = 0;
+		while (i < (jsonLoadCanGoToProjectlength))
+		{
+
+			//PnumString = ProjectItems[i].Substring(ProjectItems[i].IndexOf("id\":\"") + "id\":\"".Length);
+
+			string LoadCanGoToProjectPnumJsonData = LoadCanGoToJson[i]["Pnum"].ToString();
+			string LoadCanGoToProjectPnameJsonData = LoadCanGoToJson[i]["Pname"].ToString();
+			string LoadCanGoToProjectSuperSSnJsonData = LoadCanGoToJson[i]["Super_SSn"].ToString();
+			Pnum = int.Parse(LoadCanGoToProjectPnumJsonData);
+			Pname = LoadCanGoToProjectPnameJsonData;
+			Super_SSn = LoadCanGoToProjectSuperSSnJsonData;
+
+			projectName = "NO." + Pnum + "   " + Pname + "\nProject Manager:" + Super_SSn;
+			Debug.Log("projectName:" + projectName);
+
+			//InstantProjectEmployee(projectName, Super_SSn, Pnum);
+			InstantProject(Pname,Pnum);
+			//GoToProject set
+			i++;
+			//}
+		}
+		leftScroll.SetButton ();
+		rightScroll.SetButton ();
+	}
     //創建專案
     public void CreatRoom()
     {
