@@ -4,48 +4,65 @@ public class Draggable : MonoBehaviour
 {
 	public SteamVR_TrackedObject rightController;
 	public Transform minBound;
-
+	SteamVR_Controller.Device device;
 	public bool fixX;
 	public bool fixY;
 	public Transform thumb;	
 	bool dragging;
 
+	void Start(){
+
+		
+	}
+
 	void FixedUpdate()
 	{
 		//Debug.Log ((int)rightController.index);
-		SteamVR_Controller.Device device = SteamVR_Controller.Input ((int)rightController.index);
 
-		if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger)) {
-			dragging = false;
 
-			Ray ray = new Ray (rightController.transform.position, rightController.transform.forward);
-			//var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (GetComponent<Collider>().Raycast(ray, out hit, 100)) {
-				dragging = true;
+		if(device == null){
+			Debug.Log ("rightindex : "+rightController.index);
+			if(!rightController.index.Equals("None")){
+				device = SteamVR_Controller.Input ((int)rightController.index);
+				Debug.Log ("rightindex : " + (int)rightController.index);
+			}
+
+
+		}else{
+			if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger)) {
+				dragging = false;
+
+				Ray ray = new Ray (rightController.transform.position, rightController.transform.forward);
+				//var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+				if (GetComponent<Collider>().Raycast(ray, out hit, 100)) {
+					dragging = true;
+
+				}
+			}
+
+			if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger)) {
+				dragging = false;
+			}
+
+
+			if (dragging && device.GetTouch(SteamVR_Controller.ButtonMask.Trigger)) {
+				Ray ray = new Ray (rightController.transform.position, rightController.transform.forward);
+				RaycastHit hit;
+
+				if (GetComponent<Collider>().Raycast(ray, out hit, 100)) {
+					var point = hit.point;
+					//var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+					//point = GetComponent<Collider>().ClosestPointOnBounds(point);
+					SetThumbPosition(point);
+					SendMessage("OnDrag", Vector3.one - (thumb.localPosition - minBound.localPosition) / GetComponent<BoxCollider>().size.x);
+				}
 
 			}
 		}
 
-		if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger)) {
-			dragging = false;
-		}
 
-
-		if (dragging && device.GetTouch(SteamVR_Controller.ButtonMask.Trigger)) {
-			Ray ray = new Ray (rightController.transform.position, rightController.transform.forward);
-			RaycastHit hit;
-
-			if (GetComponent<Collider>().Raycast(ray, out hit, 100)) {
-				var point = hit.point;
-				//var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-				//point = GetComponent<Collider>().ClosestPointOnBounds(point);
-				SetThumbPosition(point);
-				SendMessage("OnDrag", Vector3.one - (thumb.localPosition - minBound.localPosition) / GetComponent<BoxCollider>().size.x);
-			}
-
-		}
 
 	}
 

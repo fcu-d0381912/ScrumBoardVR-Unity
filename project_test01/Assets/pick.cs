@@ -61,14 +61,14 @@ public class pick : MonoBehaviour {
 		else if(collider.gameObject.tag == "BOARD")
 		{
 			board = collider.gameObject;
-			Debug.Log ("1");
+			//Debug.Log ("1");
 		}
 	}
 	private void OnTriggerExit(Collider collider){
 		if( collider.gameObject.tag == "BOARD")
 		{
 			board = null;
-			Debug.Log ("3");
+			//Debug.Log ("3");
 		}
 		else if(collider.gameObject.tag == "NOTE"){
 			enter = null;

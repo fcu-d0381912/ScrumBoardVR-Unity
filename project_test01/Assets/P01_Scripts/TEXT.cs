@@ -77,8 +77,23 @@ public class TEXT : PunBehaviour {
 
 		Ctext= cardText.text;
 		ASsn = cardaSsn.text;
-		Etime =int.Parse(cardeTime.text);
-		Estimate=int.Parse(cardEstimate.text);
+		if(cardeTime.text == ""){
+			Etime = 0;
+		}else{
+			Etime = 	
+				int.Parse(cardeTime.text);
+		}
+		if(cardEstimate.text == ""){
+			Estimate = 0;
+		}else{
+			Estimate=int.Parse(cardEstimate.text);
+		}
+
+		Debug.Log("Etime"+Etime);
+		Debug.Log("cardEstimate"+Estimate);
+
+
+
 
 		cloneCard.GetComponentsInChildren<Text>()[2].text = ASsn;
 		cloneCard.GetComponentsInChildren<Text>()[3].text = Etime.ToString()+" h";
@@ -156,12 +171,13 @@ public class TEXT : PunBehaviour {
             Debug.Log("jsonProjectlength:" + JsonCard.Count);
         }
         int i = 0;
+		Debug.Log("to");
         while (i < (jsonCardlength))
         {
 
             string CardJsonData = JsonCard[i]["Cnum"].ToString();
 
-
+			Debug.Log("CardJsonData:" + CardJsonData);
             Cnum = int.Parse(CardJsonData);
             //Debug.Log("Cnum:" + Cnum);
             Cnum = Cnum + 1;

@@ -12,7 +12,9 @@ public class Uicontrol : MonoBehaviour {
 	private List<InputField> inputArray;
 	public Text showText;
 	public Text showTextContent;
-	public Collider board;
+	public Collider[] boardColiderArray;
+	public GameObject board;
+	private int boardColiderCount = 5;
 	// Use this for initialization
 	void Start () {
 		int i = 0;
@@ -22,6 +24,12 @@ public class Uicontrol : MonoBehaviour {
 			inputArray.Add(movePanel.GetComponentsInChildren<InputField>()[i] );
 			Debug.Log (inputArray [i].name);
 			i++;
+		}
+		boardColiderArray = new Collider[boardColiderCount];
+		int countColiderArray = 0;
+		while(countColiderArray < boardColiderCount){
+			boardColiderArray [countColiderArray] = board.GetComponentsInChildren<Collider> ()[countColiderArray] ;
+			countColiderArray++;
 		}
 
 
@@ -33,7 +41,7 @@ public class Uicontrol : MonoBehaviour {
 
 		if (device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger)) {
 			//dragging = false;
-			board.gameObject.SetActive(false);
+			BoardColiderSetFales();
 			Ray ray = new Ray (rightController.transform.position, rightController.transform.forward);
 			//var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit ;
@@ -58,7 +66,21 @@ public class Uicontrol : MonoBehaviour {
 
 				//dragging = true;
 			}
-			board.gameObject.SetActive(true);
+			BoardColiderSetTrue();
+		}
+	}
+
+	void BoardColiderSetFales(){
+		int count;
+		for(count=0;count<boardColiderCount;count++){
+			boardColiderArray[count].gameObject.SetActive(false);
+		}
+	}
+
+	void BoardColiderSetTrue(){
+		int count;
+		for(count=0;count<boardColiderCount;count++){
+			boardColiderArray[count].gameObject.SetActive(true);
 		}
 	}
 }
