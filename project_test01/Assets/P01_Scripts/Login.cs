@@ -16,7 +16,7 @@ public class Login : MonoBehaviour {
 	private string answer="";
 	private bool loginSuccess =false;
 	//string LoginURL = ("http://10.22.16.107/scrumboard/Login.php");
-	string LoginURL = ("http://localhost/scrumboard/Login.php");
+	string LoginURL = ("http://140.134.26.71:12345/Login.php");
 
 	// Use this for initialization
 	void Start()

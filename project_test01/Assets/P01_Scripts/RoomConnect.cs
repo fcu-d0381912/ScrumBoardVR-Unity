@@ -27,18 +27,18 @@ public class RoomConnect : PunBehaviour
     private string projectName;
 
     //string CreateProjectURL = ("http://10.22.28.42/scrumboard/ProjectInsert.php");
-    string CreateProjectURL = ("http://localhost/scrumboard/ProjectInsert.php");
+	string CreateProjectURL = ("http://140.134.26.71:12345/ProjectInsert.php");
     public string[] ProjectItems;
     public string[] ProjectListItems;
     public string[] ManagerProjectItems;
     //public int projectnumber;
     //public int project;
 
-    private string UpdateProjectAuthorityURL = ("http://localhost/scrumboard/UpdateProjectManagerAuthority.php");
-    private string InsertProjectCharacterURL = ("http://localhost/scrumboard/InsertProjectCharacter.php");
+	private string UpdateProjectAuthorityURL = ("http://140.134.26.71:12345/UpdateProjectManagerAuthority.php");
+	private string InsertProjectCharacterURL = ("http://140.134.26.71:12345/InsertProjectCharacter.php");
 
-    private string ShowCanGoToProjectURL = ("http://localhost/scrumboard/ShowCanGoToProject.php");
-    private string ShowManagerProjectURL = ("http://localhost/scrumboard/ShowManagerProject.php");
+	private string ShowCanGoToProjectURL = ("http://140.134.26.71:12345/ShowCanGoToProject.php");
+	private string ShowManagerProjectURL = ("http://140.134.26.71:12345/ShowManagerProject.php");
     private string LoginSsn;
     
 
@@ -88,7 +88,7 @@ public class RoomConnect : PunBehaviour
         projectName = "test";
         PhotonNetwork.ConnectUsingSettings("1.0");
         //StartCoroutine(CountPerson());
-        StartCoroutine(ShowCanGoToProject());
+        //StartCoroutine(ShowCanGoToProject());
         StartCoroutine(ShowManagerProject());
         
         StartCoroutine(InstantPerson());
@@ -135,7 +135,7 @@ public class RoomConnect : PunBehaviour
     //專案名讀取
     public IEnumerator LoadDatabase()
     {
-        WWW ItemsProjectJson = new WWW("http://localhost/scrumboard/ItemsProject.php");
+		WWW ItemsProjectJson = new WWW("http://140.134.26.71:12345/ItemsProject.php");
 
 
         yield return ItemsProjectJson;
@@ -186,7 +186,7 @@ public class RoomConnect : PunBehaviour
 	public IEnumerator LoadCanGoToDatabase()
 	{
 
-		string LoadCanGoToDatabaseURL = "http://localhost/scrumboard/LoadCanGoToDatabase.php";
+		string LoadCanGoToDatabaseURL = "http://140.134.26.71:12345/LoadCanGoToDatabase.php";
 		LoginSsn = PlayerPrefs.GetString("Ssn");
 		WWWForm form = new WWWForm();
 		form.AddField("SSnnamePost", LoginSsn);
@@ -461,7 +461,7 @@ public class RoomConnect : PunBehaviour
     {
         //WWW ItemsData = new WWW("http://10.22.28.42/scrumboard/ItemsData.php");
 
-        WWW ItemsData = new WWW("http://localhost/scrumboard/ItemsData.php");
+		WWW ItemsData = new WWW("http://140.134.26.71:12345/ItemsData.php");
 
         yield return ItemsData;
         string ItemsDataString = ItemsData.text;

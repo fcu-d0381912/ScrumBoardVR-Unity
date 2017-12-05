@@ -16,7 +16,7 @@ public class DataInsert : MonoBehaviour
 	public InputField password;
 
 	//string CreateUserURL = ("http://10.22.16.107/scrumboard/InsertUser.php");
-	string CreateUserURL = ("http://localhost/scrumboard/InsertUser.php");
+	string CreateUserURL = ("http://140.134.26.71:12345/InsertUser.php");
 	// Use this for initialization
 	void Start()
 	{

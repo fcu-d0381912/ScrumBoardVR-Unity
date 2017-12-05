@@ -100,7 +100,7 @@ public class TEXT : PunBehaviour {
 
 	public IEnumerator InsertCard(int Cnum, string Ctitle,string Ctext, int Pnum,string CSsn,string ASsn ,int Estimate,int Etime,float xLocation, float yLocation,float ColorAlpha, float ColorRed, float ColorGreen, float ColorBlue)
     {
-        string InsertCardURL = ("http://localhost/scrumboard/card/CardAllInsert.php");
+		string InsertCardURL = ("http://140.134.26.71:12345/CardAllInsert.php");
         WWWForm form = new WWWForm();
         //pname?
         form.AddField("CnumPost", Cnum);
@@ -138,7 +138,7 @@ public class TEXT : PunBehaviour {
     public IEnumerator CnumAutoCreate()
     {
         //int CardCnumber;       
-		WWW CardDataURL = new WWW("http://localhost/scrumboard/card/CardData.php");
+		WWW CardDataURL = new WWW("http://140.134.26.71:12345/CardData.php");
         //CardCnumber = 0;
 		yield return CardDataURL;
 		//Debug.Log ("test"+cout++);
@@ -181,7 +181,7 @@ public class TEXT : PunBehaviour {
     }
 
 	public IEnumerator UpdateLocation(string Cnum,float xLocation,float yLocation){
-		string UpdateLocationURL = "http://localhost/scrumboard/card/UpdateCardLocation.php";
+		string UpdateLocationURL = "http://140.134.26.71:12345/UpdateCardLocation.php";
 		WWWForm form = new WWWForm();
 		form.AddField("CnumPost", Cnum);
 
@@ -236,7 +236,7 @@ public class TEXT : PunBehaviour {
 
 		string LoginPnum= PlayerPrefs.GetString("Pnum");
 		Debug.Log("LoginPnum:" + LoginPnum);
-		string CardDataURL = "http://localhost/scrumboard/card/ListPnumCard.php";
+		string CardDataURL = "http://140.134.26.71:12345/ListPnumCard.php";
 		WWWForm form = new WWWForm();
 		form.AddField("PnumPost", LoginPnum);
 		WWW www = new WWW(CardDataURL, form);
@@ -332,7 +332,7 @@ public class TEXT : PunBehaviour {
 
         string findCnumCard ="";
         
-        string CnumCardURL = "http://localhost/scrumboard/card/CnumCardData.php";
+		string CnumCardURL = "http://140.134.26.71:12345/CnumCardData.php";
         WWWForm form = new WWWForm();
         form.AddField("CnumPost", findCnumCard);
         WWW www = new WWW(CnumCardURL, form);

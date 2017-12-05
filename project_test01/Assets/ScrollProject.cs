@@ -179,26 +179,46 @@ public class ScrollProject : MonoBehaviour {
 		if(controllerPosition.x - transform.position.x < - 0.05){
 			movePanel= movePanel.gameObject;
 
-			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x + 35, 0);
-			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x + 35, 0);
+			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x + 100, 0);
+			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x + 100, 0);
 			newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
 			newCenterRight = movePanel.GetComponent<RectTransform> ().offsetMax;
 			moveCount = moveCount + 1;
 			Debug.Log ("moveleft" + moveCount);
 			controllerPosition.x = transform.position.x;
+
+			if((buttonArray[i].transform.position.x - centerLeft.x) > (finalPosition)){
+				buttonArray [i].GetComponent<RectTransform> ().anchoredPosition = new Vector2(((-1)* newCenterLeft.x)-100,buttonArray [i].GetComponent<RectTransform> ().anchoredPosition.y);
+				Debug.Log ("IS VALUE:" + i);
+				if(i==0){
+					i = buttonArray.Length;
+				}
+				i--;
+				
+			}
+			
+
 		}else if( controllerPosition.x - transform.position.x > 0.05){
 			movePanel= movePanel.gameObject;
 
-			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x - 35, 0);
-			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x - 35, 0);
+			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x - 100, 0);
+			movePanel.GetComponent<RectTransform> ().offsetMax =new Vector2(newCenterRight.x - 100, 0);
 			newCenterLeft = movePanel.GetComponent<RectTransform> ().offsetMin;
 			newCenterRight = movePanel.GetComponent<RectTransform> ().offsetMax;
 			moveCount = moveCount + 1;
 			Debug.Log ("move" + moveCount);
 			controllerPosition.x = transform.position.x;
 
+				if(Math.Abs(Math.Abs(buttonArray[i].transform.position.x) - Math.Abs(centerLeft.x)) > finalPosition){
+					buttonArray [i].GetComponent<RectTransform> ().anchoredPosition = new Vector2(((400-newCenterLeft.x))+((buttonArray.Length-1)*100),buttonArray [i].GetComponent<RectTransform> ().anchoredPosition.y);
+				i++;
+				if(i==buttonArray.Length){
+					i = 0;
+				}
+			}
+			
 		}
-		CheckPosition ();
+		//CheckPosition ();
 	}
 	/*void OnTriggerExit(Collider collider)
 	{
@@ -213,7 +233,7 @@ public class ScrollProject : MonoBehaviour {
 
 
 	}*/
-	private void CheckPosition(){
+	/*private void CheckPosition(){
 		if(buttonArray!=null){
 				Debug.Log (newCenterLeft.x);
 
@@ -232,7 +252,7 @@ public class ScrollProject : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}*/
 	public void SetButton(){
 		buttonArray = new Button[movePanel.transform.childCount];
 		i = 0;
@@ -243,6 +263,7 @@ public class ScrollProject : MonoBehaviour {
 			i++;
 			
 		}
-		i = 0;
+		i--;
+
 	}
 }
