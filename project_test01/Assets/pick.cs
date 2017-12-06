@@ -14,6 +14,7 @@ public class pick : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
+
 	}
 	
 	// Update is called once per frame

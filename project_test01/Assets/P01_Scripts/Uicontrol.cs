@@ -12,6 +12,9 @@ public class Uicontrol : MonoBehaviour {
 	private List<InputField> inputArray;
 	public Text showText;
 	public Text showTextContent;
+	public Text showAssn;
+	public Text showEtime;
+	public Text showEstimate;
 	public Collider[] boardColiderArray;
 	public GameObject board;
 	private int boardColiderCount = 5;
@@ -59,8 +62,11 @@ public class Uicontrol : MonoBehaviour {
 					Debug.Log (Number);
 				}
 				else if(hit.transform.tag.Equals ("NOTE")){
-					showText.text=hit.transform.GetComponentInChildren<Text> ().text;
+					showText.text=hit.transform.GetComponentInChildren<Card> ().Ctitle;
 					showTextContent.text = hit.transform.GetComponent<Card>().Ctext;
+					showAssn.text=hit.transform.GetComponentInChildren<Card> ().ASsn;
+					showEtime.text = hit.transform.GetComponent<Card>().Etime.ToString();
+					showEstimate.text = hit.transform.GetComponent<Card>().Estimate.ToString();
 					Debug.Log ("GetNote");
 				}
 

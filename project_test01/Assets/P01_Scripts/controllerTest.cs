@@ -36,6 +36,7 @@ public class controllerTest : MonoBehaviour {
 		//SpeechComponent = speech.GetComponent<Speech> ();
 		creatcard = GameObject.Find ("Card").GetComponent<TEXT> ();
 		showEditorCanvas = false;
+
 		/*
 		imageUIBlank.sprite = Resources.Load<Sprite> ("uiBlank2");
 		imageUIDelete.sprite = Resources.Load<Sprite> ("uiDelete2");

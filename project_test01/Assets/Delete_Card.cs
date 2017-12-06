@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Delete_Card : MonoBehaviour {
-
+	#if UNITY_EDITOR || UNITY_STANDALONE
 	// Use this for initialization
 	void Start () {
 		
@@ -29,4 +29,5 @@ public class Delete_Card : MonoBehaviour {
 		string CardDeleteboolean = www.text;
 		Debug.Log("CardDeleteboolean:" + CardDeleteboolean);
 	}
+	#endif
 }

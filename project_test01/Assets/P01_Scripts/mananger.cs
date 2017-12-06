@@ -17,6 +17,7 @@ public class mananger : PunBehaviour {
 
 		#if UNITY_ANDROID
 		PhotonNetwork.JoinRandomRoom ();
+		if(PhotonNetwork.)
 		#endif
 
     }
@@ -34,6 +35,14 @@ public class mananger : PunBehaviour {
 				StartCoroutine(cardCreate.ListPnumCard ());
             }
             Debug.Log(TEMP);
+			#if UNITY_ANDROID
+			PhotonNetwork.JoinRandomRoom ();
+			if(PhotonNetwork.room.PlayerCount == 1){
+				PhotonNetwork.LeaveRoom;
+				PhotonNetwork.JoinRandomRoom ();
+			}
+			#endif
+
         }
     }
 
@@ -46,11 +55,14 @@ public class mananger : PunBehaviour {
     {
         RoomOptions roomoption = new RoomOptions();
         //roomoption.CustomRoomProperties=;
-        PhotonNetwork.JoinOrCreateRoom("testroom", roomoption,TypedLobby.Default);
+		PhotonNetwork.JoinOrCreateRoom(projectName.text, roomoption,TypedLobby.Default);
+
         
     }
     
-
+	public void Leave(){
+		PhotonNetwork.LeaveRoom ();
+	}
    
 
     

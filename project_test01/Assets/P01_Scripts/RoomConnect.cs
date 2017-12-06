@@ -171,7 +171,7 @@ public class RoomConnect : PunBehaviour
             Debug.Log("projectName:" + projectName);
             
             //InstantProjectEmployee(projectName, Super_SSn, Pnum);
-			InstantProject(Pname,Pnum);
+			InstantProject(Pname,Pnum,Super_SSn);
 			//GoToProject set
 
 
@@ -221,7 +221,7 @@ public class RoomConnect : PunBehaviour
 			Debug.Log("projectName:" + projectName);
 
 			//InstantProjectEmployee(projectName, Super_SSn, Pnum);
-			InstantProject(Pname,Pnum);
+			InstantProject(Pname,Pnum,Super_SSn);
 			//GoToProject set
 			i++;
 			//}
@@ -289,7 +289,7 @@ public class RoomConnect : PunBehaviour
     }
 
     //新增專案用
-	private void InstantProject(String Pname,int pNum)
+	private void InstantProject(String Pname,int pNum,string Super_SSn)
     {
 		childGameObject = Instantiate(copyGameObject);
 		childGameObject.transform.SetParent(movePanel.transform);
@@ -297,7 +297,8 @@ public class RoomConnect : PunBehaviour
 		childGameObject.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(pNum*100,0,0);
 
         //考慮要不要加PNUM
-		childGameObject.GetComponentInChildren<Text>().text = Pname;
+		childGameObject.GetComponentsInChildren<Text>()[0].text = Pname;
+		childGameObject.GetComponentsInChildren<Text>()[1].text = Super_SSn;
 		childGameObject.name = pNum.ToString ();
         //Button GoToProject = childGameObject.GetComponentsInChildren<Button>()[0];
         //Button AddEmployee = childGameObject.GetComponentsInChildren<Button>()[1];

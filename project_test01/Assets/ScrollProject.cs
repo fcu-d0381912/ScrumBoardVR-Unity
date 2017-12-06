@@ -176,7 +176,7 @@ public class ScrollProject : MonoBehaviour {
 
 	}
 	private void PressGripButton(){
-		if(controllerPosition.x - transform.position.x < - 0.05){
+		if(controllerPosition.x - transform.position.x < - 0.12){
 			movePanel= movePanel.gameObject;
 
 			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x + 100, 0);
@@ -198,7 +198,7 @@ public class ScrollProject : MonoBehaviour {
 			}
 			
 
-		}else if( controllerPosition.x - transform.position.x > 0.05){
+		}else if( controllerPosition.x - transform.position.x > 0.12){
 			movePanel= movePanel.gameObject;
 
 			movePanel.GetComponent<RectTransform> ().offsetMin =new Vector2(newCenterLeft.x - 100, 0);

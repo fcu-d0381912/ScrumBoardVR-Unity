@@ -1,5 +1,5 @@
 using UnityEngine;
-
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class Draggable : MonoBehaviour
 {
 	public SteamVR_TrackedObject rightController;
@@ -79,3 +79,4 @@ public class Draggable : MonoBehaviour
 		thumb.localPosition = new Vector3(fixX ? temp.x : thumb.localPosition.x, fixY ? temp.y : thumb.localPosition.y, thumb.localPosition.z -1);
 	}
 }
+#endif

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+#if UNITY_EDITOR || UNITY_STANDALONE
 public class DataInsert : MonoBehaviour
 {
 
@@ -45,3 +46,4 @@ public class DataInsert : MonoBehaviour
 		WWW www = new WWW(CreateUserURL, form);
 	}
 }
+#endif

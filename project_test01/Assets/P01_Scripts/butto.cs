@@ -178,6 +178,15 @@ public class butto : MonoBehaviour {
 					LoginCanvas.SetActive (true);
 					errortext.SetActive (false);
 					break;
+
+				/*case "LeaveRoom":
+					Debug.Log ("LeaveRoom");
+					SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex-1);
+
+					//passwordCanvas.SetActive (false);
+
+					break;*/
+
 				default:
 					Debug.Log (enter.gameObject.tag);
 					break;
