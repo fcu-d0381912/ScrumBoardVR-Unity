@@ -149,7 +149,10 @@ public class ScrollProject : MonoBehaviour {
 	private void OnTriggerStay(Collider collider)
 	{
 		//Debug.Log (collider.name);
-		enter = collider.gameObject;
+			if(collider.transform.gameObject.tag.Equals("Project")){
+				enter = collider.gameObject;
+
+			}
 		/*
 		if (controller.GetPressDown(triggerButton)) {
 			int pNum = int.Parse(collider.gameObject.name);
@@ -171,7 +174,7 @@ public class ScrollProject : MonoBehaviour {
 			int pNum = int.Parse(enter.gameObject.name);
 			string projectName = enter.GetComponentInChildren<Text> ().text;
 			PlayerPrefs.SetString ("projectName", projectName);
-			projectRoom.GetRoom (pNum);
+			projectRoom.GetRoom (projectName,pNum);
 		}
 
 	}

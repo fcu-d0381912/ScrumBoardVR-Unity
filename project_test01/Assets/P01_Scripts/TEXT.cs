@@ -106,6 +106,8 @@ public class TEXT : PunBehaviour {
 
 		xLocation = cloneCard.transform.position.x;
 		yLocation = cloneCard.transform.position.y;
+		//cardComponent = cloneCard.GetComponent<Card> ();
+		//cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, LoginSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
 		float zLocation = cloneCard.transform.position.z;
 
         StartCoroutine(CnumAutoCreate());

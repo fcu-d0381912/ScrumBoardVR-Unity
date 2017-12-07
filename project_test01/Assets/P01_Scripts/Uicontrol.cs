@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon;
 #if UNITY_EDITOR || UNITY_STANDALONE
-public class Uicontrol : MonoBehaviour {
+public class Uicontrol :PunBehaviour {
 	//bool dragging;
 	public SteamVR_TrackedObject rightController;
 	public Speech speechenity;
 	public GameObject movePanel;
 	private int InputFieldNumber = 5;
 	private List<InputField> inputArray;
-	public Text showText;
-	public Text showTextContent;
-	public Text showAssn;
-	public Text showEtime;
-	public Text showEstimate;
+	public ChangeText showText;
+	public ChangeText showTextContent;
+	public ChangeText showAssn;
+	public ChangeText showEtime;
+	public ChangeText showEstimate;
 	public Collider[] boardColiderArray;
 	public GameObject board;
 	private int boardColiderCount = 5;
@@ -67,6 +68,7 @@ public class Uicontrol : MonoBehaviour {
 					showAssn.text=hit.transform.GetComponentInChildren<Card> ().ASsn;
 					showEtime.text = hit.transform.GetComponent<Card>().Etime.ToString();
 					showEstimate.text = hit.transform.GetComponent<Card>().Estimate.ToString();
+
 					Debug.Log ("GetNote");
 				}
 

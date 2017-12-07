@@ -42,4 +42,19 @@ public class Card : MonoBehaviour {
 	}
 
 
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.isWriting)
+		{
+			// We own this player: send the others our data
+			stream.SendNext(Ctitle);
+			stream.SendNext(Ctext);
+		}else{
+			// Network player, receive data
+			this.Ctitle = (string)stream.ReceiveNext();
+			this.Ctext = (string)stream.ReceiveNext();
+		}
+
+
+	}
 }

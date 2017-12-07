@@ -230,7 +230,7 @@ public class RoomConnect : PunBehaviour
 		rightScroll.SetButton ();
 	}
     //創建專案
-    public void CreatRoom()
+    /*public void CreatRoom()
     {
 
         projectName = creatRoomUi.GetComponentInChildren<InputField>().text;
@@ -243,7 +243,7 @@ public class RoomConnect : PunBehaviour
         creatRoomUi.SetActive(false);
         showCreat.gameObject.SetActive(true);
 
-    }
+    }*/
 
     //創建專案
     public IEnumerator CreateProject(string Pname, int Pnum, string Super_SSn)
@@ -441,7 +441,7 @@ public class RoomConnect : PunBehaviour
     }
 
 
-	public void GetRoom(int pNum)
+	public void GetRoom(String projectName,int pNum)
     {
         //string roomName = "default";
         //string PnumName;
@@ -452,7 +452,7 @@ public class RoomConnect : PunBehaviour
 		PlayerPrefs.SetString("Pnum", pNum.ToString());
 		Debug.Log("Go to NO." + pNum + " project");
         RoomOptions option = new RoomOptions();
-		PhotonNetwork.JoinOrCreateRoom(pNum.ToString(), option, TypedLobby.Default);
+		PhotonNetwork.JoinOrCreateRoom(projectName, option, TypedLobby.Default);
         SceneManager.LoadScene(2);
     }
 

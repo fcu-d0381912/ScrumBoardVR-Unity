@@ -15,12 +15,7 @@ public class mananger : PunBehaviour {
         first = false;
         PhotonNetwork.ConnectUsingSettings("1.0");
 
-		#if UNITY_ANDROID
-		PhotonNetwork.JoinRandomRoom ();
-		if(PhotonNetwork.)
-		#endif
-
-    }
+	    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,17 +28,20 @@ public class mananger : PunBehaviour {
                // PhotonNetwork.Instantiate("Sphere", new Vector3(0, 1, 0), Quaternion.identity, 0);
 				projectName.text = PlayerPrefs.GetString ("projectName");
 				StartCoroutine(cardCreate.ListPnumCard ());
+				Debug.Log ("1231231"+PhotonNetwork.room.Name);
+				Debug.Log (PhotonNetwork.room.PlayerCount);
             }
             Debug.Log(TEMP);
-			#if UNITY_ANDROID
-			PhotonNetwork.JoinRandomRoom ();
-			if(PhotonNetwork.room.PlayerCount == 1){
-				PhotonNetwork.LeaveRoom;
-				PhotonNetwork.JoinRandomRoom ();
-			}
-			#endif
+
 
         }
+		#if UNITY_ANDROID
+		PhotonNetwork.JoinRandomRoom ();
+		if(PhotonNetwork.room.PlayerCount == 1){
+			PhotonNetwork.LeaveRoom();
+			PhotonNetwork.JoinRandomRoom ();
+		}
+		#endif
     }
 
     public override void OnConnectedToMaster()
@@ -55,6 +53,9 @@ public class mananger : PunBehaviour {
     {
         RoomOptions roomoption = new RoomOptions();
         //roomoption.CustomRoomProperties=;
+		#if UNITY_ANDROID
+		PhotonNetwork.JoinRandomRoom ();
+		#endif
 		PhotonNetwork.JoinOrCreateRoom(projectName.text, roomoption,TypedLobby.Default);
 
         
