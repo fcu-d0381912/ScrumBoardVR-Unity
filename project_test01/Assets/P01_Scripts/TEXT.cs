@@ -111,6 +111,9 @@ public class TEXT : PunBehaviour {
 		float zLocation = cloneCard.transform.position.z;
 
         StartCoroutine(CnumAutoCreate());
+		cardComponent = cloneCard.GetComponent<Card> ();
+
+		//cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, LoginSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
 		//gobj.GetComponentsInChildren<Text>()[1].text =Cnum;
 		//StartCoroutine(InsertCard(Cnum, caedtext.text, Pnum, LoginSsn, 4,xLocation, yLocation, Alpha, Red, Green, Blue));
     }
@@ -193,6 +196,7 @@ public class TEXT : PunBehaviour {
 		cloneCard.GetComponentsInChildren<Text>()[1].text =Cnum.ToString();
 		cardComponent = cloneCard.GetComponent<Card> ();
 		cardComponent.setCard (Cnum, Ctitle, Ctext, xLocation, yLocation, Pnum, LoginSsn, ASsn, Estimate, Etime, Alpha, Red, Green, Blue);
+
 		StartCoroutine(InsertCard (Cnum, cardtitle.text, Ctext, Pnum, LoginSsn, ASsn, Estimate, Etime, xLocation, yLocation, Alpha, Red, Green, Blue));
 		//InsertCard (Cnum, caedtext.text, Ctext, Pnum, LoginSsn, ASsn, Estimate, Etime, xLocation, yLocation, Alpha, Red, Green, Blue);
 
@@ -432,6 +436,8 @@ public class TEXT : PunBehaviour {
 
 
     }
+
+
 
 
 }

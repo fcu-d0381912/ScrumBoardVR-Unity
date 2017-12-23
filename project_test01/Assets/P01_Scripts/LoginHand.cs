@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR || UNITY_STANDALONE
-public class butto : MonoBehaviour {
+public class LoginHand : MonoBehaviour {
 	public GameObject passwordCanvas;
 	public GameObject LoginCanvas;
 	Button button;

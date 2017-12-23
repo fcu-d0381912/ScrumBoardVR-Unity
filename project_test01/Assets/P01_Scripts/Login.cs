@@ -9,8 +9,8 @@ public class Login : MonoBehaviour {
 
 
 	public string inputSSnname;
-	public butto LeftshowUi;
-	public butto RightshowUi;
+	public LoginHand LeftshowUi;
+	public LoginHand RightshowUi;
 	private string account = "";
 	private string password;
 	private string answer="";

@@ -89,9 +89,9 @@ public class RoomConnect : PunBehaviour
         PhotonNetwork.ConnectUsingSettings("1.0");
         //StartCoroutine(CountPerson());
         //StartCoroutine(ShowCanGoToProject());
-        StartCoroutine(ShowManagerProject());
+        //StartCoroutine(ShowManagerProject());
         
-        StartCoroutine(InstantPerson());
+        //StartCoroutine(InstantPerson());
 		StartCoroutine(LoadCanGoToDatabase());
        
 
@@ -132,55 +132,7 @@ public class RoomConnect : PunBehaviour
     }
 
     
-    //專案名讀取
-    public IEnumerator LoadDatabase()
-    {
-		WWW ItemsProjectJson = new WWW("http://140.134.26.71:12345/ItemsProject.php");
-
-
-        yield return ItemsProjectJson;
-        string ItemsDataString = ItemsProjectJson.text;
-        if (ItemsDataString.Equals("NULL"))
-        {
-            Debug.Log("No project");
-        }
-        else
-        {
-            Json = JsonMapper.ToObject<JsonData>(ItemsDataString);
-            jsonProjectlength= Json.Count;
-        }
-
-        //Json.Count
-        //string ProjectJsonData = Json[1]["Pnum"].ToString();
-
-      
-        int i = 0; 
-        while (i < (jsonProjectlength))
-        {
-
-            //PnumString = ProjectItems[i].Substring(ProjectItems[i].IndexOf("id\":\"") + "id\":\"".Length);
-
-            string ProjectPnumJsonData = Json[i]["Pnum"].ToString();
-            string ProjectPnameJsonData = Json[i]["Pname"].ToString();
-            string ProjectSuperSSnJsonData = Json[i]["Super_SSn"].ToString();
-            Pnum = int.Parse(ProjectPnumJsonData);
-            Pname = ProjectPnameJsonData;
-            Super_SSn = ProjectSuperSSnJsonData;
-            
-            projectName = "NO." + Pnum + "   " + Pname + "\nProject Manager:" + Super_SSn;
-            Debug.Log("projectName:" + projectName);
-            
-            //InstantProjectEmployee(projectName, Super_SSn, Pnum);
-			InstantProject(Pname,Pnum,Super_SSn);
-			//GoToProject set
-
-
-            i++;
-            //}
-        }
-		leftScroll.SetButton ();
-		rightScroll.SetButton ();
-    }
+    
 		
 	//讀取能進入的專案
 	public IEnumerator LoadCanGoToDatabase()
@@ -245,48 +197,7 @@ public class RoomConnect : PunBehaviour
 
     }*/
 
-    //創建專案
-    public IEnumerator CreateProject(string Pname, int Pnum, string Super_SSn)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("PnamePost", Pname);
-        form.AddField("PnumPost", Pnum);
-        form.AddField("SuperSSnPost", Super_SSn);
-        WWW www = new WWW(CreateProjectURL, form);
-        yield return www;
 
-        string CreateProjectboolean = www.text;
-        Debug.Log("CreateProjectboolean:" + CreateProjectboolean);
-    }
- 
-    //權限升級
-    public IEnumerator UpdateProjectAuthority(string Ssn)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("SSnnamePost", Ssn);
-        WWW www = new WWW(UpdateProjectAuthorityURL, form);
-
-        yield return www;
-
-        string UpdateProjectAuthorityboolean = www.text;
-        Debug.Log("UpdateProjectAuthorityboolean:" + UpdateProjectAuthorityboolean);
-
-    }
-    //專案角色改變
-    public IEnumerator InsertProjectCharacter(string PSsn, int Pnumber, string PCharacter)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("PSsnPost", PSsn);
-        form.AddField("PnumPost", Pnumber);
-        form.AddField("PCharacterPost", PCharacter);
-
-        WWW www = new WWW(InsertProjectCharacterURL, form);
-        yield return www;
-
-        string ProjectCharacterboolean = www.text;
-        Debug.Log("ProjectCharacterboolean:" + ProjectCharacterboolean);
-
-    }
 
     //新增專案用
 	private void InstantProject(String Pname,int pNum,string Super_SSn)
@@ -360,6 +271,7 @@ public class RoomConnect : PunBehaviour
         });
     }*/
     //列出一個人能去的案子
+	/*
     public IEnumerator ShowCanGoToProject()
     {
         LoginSsn = PlayerPrefs.GetString("Ssn");
@@ -439,7 +351,7 @@ public class RoomConnect : PunBehaviour
             }
         
     }
-
+	*/
 
 	public void GetRoom(String projectName,int pNum)
     {
@@ -458,6 +370,7 @@ public class RoomConnect : PunBehaviour
 
 
     //載入員工列表
+	/*
     private IEnumerator InstantPerson()
     {
         //WWW ItemsData = new WWW("http://10.22.28.42/scrumboard/ItemsData.php");
@@ -501,8 +414,9 @@ public class RoomConnect : PunBehaviour
 
         
     }
-
-
+	*/
+	//判斷Toggle
+	/*
     public void CheckToggle(Button thisGameObject)
     {
         int i = 1;
@@ -546,6 +460,7 @@ public class RoomConnect : PunBehaviour
         }
 
     }
+	*/
     //testJson
 
     /*private IEnumerator ProjectnumberJson(string projectName)
@@ -614,7 +529,50 @@ public class RoomConnect : PunBehaviour
             //專案角色改變
             StartCoroutine(InsertProjectCharacter(Super_SSn, Pnum, "ScrumMaster"));
         }*/
-    
+	//創建專案
+	/*
+	public IEnumerator CreateProject(string Pname, int Pnum, string Super_SSn)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("PnamePost", Pname);
+		form.AddField("PnumPost", Pnum);
+		form.AddField("SuperSSnPost", Super_SSn);
+		WWW www = new WWW(CreateProjectURL, form);
+		yield return www;
+
+		string CreateProjectboolean = www.text;
+		Debug.Log("CreateProjectboolean:" + CreateProjectboolean);
+	}
+
+	//權限升級
+	public IEnumerator UpdateProjectAuthority(string Ssn)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("SSnnamePost", Ssn);
+		WWW www = new WWW(UpdateProjectAuthorityURL, form);
+
+		yield return www;
+
+		string UpdateProjectAuthorityboolean = www.text;
+		Debug.Log("UpdateProjectAuthorityboolean:" + UpdateProjectAuthorityboolean);
+
+	}
+	//專案角色改變
+	public IEnumerator InsertProjectCharacter(string PSsn, int Pnumber, string PCharacter)
+	{
+		WWWForm form = new WWWForm();
+		form.AddField("PSsnPost", PSsn);
+		form.AddField("PnumPost", Pnumber);
+		form.AddField("PCharacterPost", PCharacter);
+
+		WWW www = new WWW(InsertProjectCharacterURL, form);
+		yield return www;
+
+		string ProjectCharacterboolean = www.text;
+		Debug.Log("ProjectCharacterboolean:" + ProjectCharacterboolean);
+
+	}
+	*/
 }
 
 class ProjectData

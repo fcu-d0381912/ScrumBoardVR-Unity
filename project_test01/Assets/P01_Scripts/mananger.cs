@@ -27,7 +27,9 @@ public class mananger : PunBehaviour {
             {
                // PhotonNetwork.Instantiate("Sphere", new Vector3(0, 1, 0), Quaternion.identity, 0);
 				projectName.text = PlayerPrefs.GetString ("projectName");
-				StartCoroutine(cardCreate.ListPnumCard ());
+				if (PhotonNetwork.isMasterClient) {
+					StartCoroutine (cardCreate.ListPnumCard ());
+				}
 				Debug.Log ("1231231"+PhotonNetwork.room.Name);
 				Debug.Log (PhotonNetwork.room.PlayerCount);
             }
